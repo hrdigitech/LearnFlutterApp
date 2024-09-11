@@ -18,6 +18,7 @@ class SignInScreen extends StatelessWidget {
     final SignInController controller = Get.put(SignInController());
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         height: double.infinity,
         width: double.infinity,
