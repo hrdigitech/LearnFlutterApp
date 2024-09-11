@@ -13,6 +13,7 @@ dependencies:
   get:
   flutter_svg:
   shared_preferences:
+  pin_input_text_field:
 
 dev_dependencies:
   flutter_test:
