@@ -14,6 +14,7 @@ dependencies:
   flutter_svg:
   shared_preferences:
   pin_input_text_field:
+  curved_navigation_bar:
 
 dev_dependencies:
   flutter_test:

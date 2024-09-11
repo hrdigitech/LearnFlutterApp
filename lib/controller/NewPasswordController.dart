@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/views/routes/AppRoutes.dart';
 
-class SignInController extends GetxController {
+class NewPasswordController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController mailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
-  void onSignInTap() {
-    Get.toNamed(AppRoutes.BOTTOMNAVIGATION);
-    // if (formKey.currentState!.validate()) {
-    //   Get.toNamed(AppRoutes.HOMEPAGE);
-    // } else {
-    //   Get.snackbar("Error", "Please fill all fields correctly");
-    // }
+  void onContinueOnTap() {
+    if (formKey.currentState!.validate()) {
+      Get.toNamed(AppRoutes.HOMEPAGE);
+    } else {
+      Get.snackbar("Error", "Please fill all fields correctly");
+    }
   }
 
   bool isPasswordStrong(String password) {
@@ -26,7 +26,7 @@ class SignInController extends GetxController {
 
   @override
   void onClose() {
-    mailController.dispose();
+    confirmPasswordController.dispose();
     passwordController.dispose();
     super.onClose();
   }

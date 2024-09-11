@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/controller/EnterCodeController.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-
 import '../routes/AppRoutes.dart';
 import '../utils/LinearColorUtils.dart';
 

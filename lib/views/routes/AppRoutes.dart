@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:learn_flutter/views/screens/BottomNavigationPage.dart';
 import 'package:learn_flutter/views/screens/EnterCodePage.dart';
 import 'package:learn_flutter/views/screens/ForgetPassword.dart';
 import 'package:learn_flutter/views/screens/NewPasswordPage.dart';
@@ -16,6 +17,7 @@ class AppRoutes {
   static const String FORGETPASSWORD = "/forget_password";
   static const String ENTERCODEPAGE = "/enter_code_page";
   static const String NEWPASSWORDPAGE = "/new_password_page";
+  static const String BOTTOMNAVIGATION = "/bottom_navigation_page";
 
   static final routes = [
     GetPage(
@@ -45,6 +47,10 @@ class AppRoutes {
     GetPage(
       name: HOMEPAGE,
       page: () => HomePage(),
+    ),
+    GetPage(
+      name: BOTTOMNAVIGATION,
+      page: () => BottomNavigationPage(),
     ),
   ];
 }
