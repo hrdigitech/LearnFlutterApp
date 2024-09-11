@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../controller/BottomNavigationController.dart';
 import 'HomePage.dart';
 import 'ProfilePage.dart';
+import 'SearchPage.dart';
 import 'WishlistPage.dart';
 
 class BottomNavigationPage extends StatelessWidget {
@@ -24,9 +25,12 @@ class BottomNavigationPage extends StatelessWidget {
           unselectedItemColor: Colors.black,
           items: const [
             BottomNavigationBarItem(
-              backgroundColor: Color(0xFF0B1521),
               icon: Icon(Icons.home),
               label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border),
@@ -43,6 +47,7 @@ class BottomNavigationPage extends StatelessWidget {
   }
   final List<Widget> _pages = [
     HomePage(),
+    SearchPage(),
     WishlistPage(),
     ProfilePage(),
   ];
