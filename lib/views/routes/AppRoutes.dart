@@ -2,11 +2,13 @@ import 'package:get/get.dart';
 import 'package:learn_flutter/views/screens/BottomNavigationPage.dart';
 import 'package:learn_flutter/views/screens/EnterCodePage.dart';
 import 'package:learn_flutter/views/screens/ForgetPassword.dart';
+import 'package:learn_flutter/views/screens/LatestPage.dart';
 import 'package:learn_flutter/views/screens/NewPasswordPage.dart';
 import 'package:learn_flutter/views/screens/PlaylistDetailPage.dart';
 import 'package:learn_flutter/views/screens/PlaylistPage.dart';
 import 'package:learn_flutter/views/screens/SignInScreen.dart';
 import 'package:learn_flutter/views/screens/SignUpScreen.dart';
+import 'package:learn_flutter/views/screens/TrendingPage.dart';
 
 import '../screens/HomePage.dart';
 import '../screens/SplashScreen.dart';
@@ -68,11 +70,11 @@ class AppRoutes {
     ),
     GetPage(
       name: LATESTPAGE,
-      page: () => PlaylistPage(),
+      page: () => LatestPage(),
     ),
     GetPage(
       name: TRENDINGPAGE,
-      page: () => PlaylistPage(),
+      page: () => TrendingPage(),
     ),
   ];
 }

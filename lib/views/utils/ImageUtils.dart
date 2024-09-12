@@ -7,4 +7,13 @@ class ImageUtils{
   static String NewPasswordVector = "NewPasswordVector.png";
   static String HomeHeader = "HomeHeader.png";
   static String PlaylistHeader = "PlaylistHeader.png";
+  static String WishlistHeader = "WishlistHeader.png";
+  static String TrendingHeader = "TrendingHeader.png";
+  static String SearchHeader = "SearchHeader.png";
+  static String ProfileHeader = "ProfileHeader.png";
+  static String PrivacyPolicyHeader = "PrivacyPolicyHeader.png";
+  static String EditProfileHeader = "EditProfileHeader.png";
+  static String LatestHeader = "LatestHeader.png";
+  static String ChangePasswordHeader = "ChangePasswordHeader.png";
+  static String AboutHeader = "AboutHeader.png";
 }
