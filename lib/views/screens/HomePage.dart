@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:learn_flutter/views/components/ImageRowWidget.dart';
+import 'package:learn_flutter/views/components/ImageSlider.dart';
+import 'package:learn_flutter/views/utils/ColorUtils.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
-import 'package:learn_flutter/views/utils/LinearColorUtils.dart';
+import '../components/TitleText.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,7 +11,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -69,6 +71,166 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Flexible(
+              flex: 8,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(
+                    h * 0.02,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: h * 0.12,
+                              decoration: BoxDecoration(
+                                color: ColorUtils.primaryColor,
+                                borderRadius: BorderRadius.circular(
+                                  h * 0.01,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.green.withOpacity(0.25),
+                                    offset: Offset(0, 0),
+                                    blurRadius: 14,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Playlist",
+                                  style: TextStyle(
+                                    fontSize: h * 0.02,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: h * 0.02,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: h * 0.12,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(
+                                  h * 0.01,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.25),
+                                    offset: Offset(0, 0),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Latest",
+                                  style: TextStyle(
+                                    fontSize: h * 0.02,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: h * 0.02,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: h * 0.12,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(
+                                  h * 0.01,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.25),
+                                    offset: Offset(0, 0),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Trending",
+                                  style: TextStyle(
+                                    fontSize: h * 0.02,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      TitleText(
+                        text: "People Also View",
+                        fontSize: h * 0.024,
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      ImageSlider(),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      TitleText(
+                        text: "Playlist",
+                        fontSize: h * 0.024,
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      ImageRowWidget(),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      TitleText(
+                        text: "Latest",
+                        fontSize: h * 0.024,
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      ImageRowWidget(),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      TitleText(
+                        text: "Trending",
+                        fontSize: h * 0.024,
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      ImageRowWidget(),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
