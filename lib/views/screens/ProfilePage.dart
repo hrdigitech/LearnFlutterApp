@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:learn_flutter/views/components/TitleText.dart';
+import 'package:learn_flutter/views/routes/AppRoutes.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../models/RateUs.dart';
 import '../components/SettingComponents.dart';
 import '../utils/ImageUtils.dart';
 
@@ -10,12 +14,16 @@ class ProfilePage extends StatelessWidget {
 
   final List<Map<String, dynamic>> accountSetting = [
     {
-      'onTap': () {},
+      'onTap': () {
+        Get.toNamed(AppRoutes.EDITPROFILEPAGE);
+      },
       'icon': Icons.person,
       'name': "Edit Profile",
     },
     {
-      'onTap': () {},
+      'onTap': () {
+        Get.toNamed(AppRoutes.CHANGEPASSWORDPAGE);
+      },
       'icon': Icons.lock,
       'name': "Change Password",
     },
@@ -23,32 +31,61 @@ class ProfilePage extends StatelessWidget {
 
   final List<Map<String, dynamic>> developer = [
     {
-      'onTap': () {},
+      'onTap': () {
+        Share.share(
+          '🌟 Check out this amazing app: 🌟\n\n'
+              'Learn Flutter with ease and fun! 🚀\n\n'
+              'Download it now from the Google Play Store: 📱\n'
+              'https://play.google.com/store/apps/details?id=com.hrcodeexperts.learn_flutter\n\n'
+              'Your feedback is greatly appreciated! 😊',
+          subject: 'Check out this app!',
+        );
+      },
       'icon': Icons.share,
       'name': "Share App",
     },
     {
-      'onTap': () {},
+      'onTap': () async {
+        const url = 'https://play.google.com/store/apps/dev?id=5361587938495506523';
+        if (await canLaunch(url)) {
+          await launch(url);
+        } else {
+          throw 'Could not launch $url';
+        }
+      },
       'icon': Icons.other_houses,
       'name': "Our Other Products",
     },
     {
-      'onTap': () {},
+      'onTap': () async {
+        const url = 'https://www.hrdigitech.com';
+        if (await canLaunch(url)) {
+          await launch(url);
+        } else {
+          throw 'Could not launch $url';
+        }
+      },
       'icon': Icons.contact_page_outlined,
       'name': "Follow Us",
     },
     {
-      'onTap': () {},
+      'onTap': (BuildContext context) {
+        RateUs().forceShowRateDialog(context);
+      },
       'icon': Icons.star,
       'name': "Rate Us",
     },
     {
-      'onTap': () {},
+      'onTap': () {
+        Get.toNamed(AppRoutes.PRIVACYPOLICY);
+      },
       'icon': Icons.privacy_tip,
       'name': "Privacy Policy",
     },
     {
-      'onTap': () {},
+      'onTap': () {
+        Get.toNamed(AppRoutes.ABOUTUSPAGE);
+      },
       'icon': Icons.info_rounded,
       'name': "About Us",
     },
@@ -56,18 +93,20 @@ class ProfilePage extends StatelessWidget {
 
   final List<Map<String, dynamic>> settings = [
     {
-      'onTap': () {},
+      'onTap': () {
+        Get.offAllNamed(AppRoutes.SIGNINSCREEN);
+      },
       'icon': Icons.logout,
       'name': "Logout",
     },
     {
-      'onTap': (BuildContext context) => showExitDialog(context),
+      'onTap': (BuildContext context) {
+        showExitDialog(context);
+      },
       'icon': Icons.exit_to_app,
       'name': "Exit",
     },
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +147,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(height: h * 0.02),
                   Text(
-                    "Hello Dear",
+                    "Admin",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -116,7 +155,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Let’s Learn More About Flutter",
+                    "admin@gmail.com",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: h * 0.022,
@@ -148,9 +187,9 @@ class ProfilePage extends StatelessWidget {
                           return ListTile(
                             leading: Icon(accountSetting[index]['icon']),
                             title: Text(accountSetting[index]['name']),
-                            onTap: accountSetting[index]['onTap'],
+                            onTap: accountSetting[index]['onTap'] as void Function()?,
                             trailing: IconButton(
-                              onPressed: accountSetting[index]['onTap'],
+                              onPressed: accountSetting[index]['onTap'] as void Function()?,
                               icon: Icon(
                                 Icons.arrow_forward_ios,
                                 size: h * 0.022,
@@ -171,12 +210,27 @@ class ProfilePage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: developer.length,
                         itemBuilder: (context, index) {
+                          final onTap = developer[index]['onTap'];
                           return ListTile(
                             leading: Icon(developer[index]['icon']),
                             title: Text(developer[index]['name']),
-                            onTap: developer[index]['onTap'],
+                            onTap: () {
+                              // Wrap the function to pass context if needed
+                              if (onTap is Function(BuildContext)) {
+                                onTap(context);
+                              } else {
+                                onTap();
+                              }
+                            },
                             trailing: IconButton(
-                              onPressed: developer[index]['onTap'],
+                              onPressed: () {
+                                // Wrap the function to pass context if needed
+                                if (onTap is Function(BuildContext)) {
+                                  onTap(context);
+                                } else {
+                                  onTap();
+                                }
+                              },
                               icon: Icon(
                                 Icons.arrow_forward_ios,
                                 size: h * 0.022,
@@ -197,12 +251,27 @@ class ProfilePage extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: settings.length,
                         itemBuilder: (context, index) {
+                          final onTap = settings[index]['onTap'];
                           return ListTile(
                             leading: Icon(settings[index]['icon']),
                             title: Text(settings[index]['name']),
-                            onTap: () => settings[index]['onTap'](context), // Pass the context here
+                            onTap: () {
+                              // Wrap the function to pass context if needed
+                              if (onTap is Function(BuildContext)) {
+                                onTap(context);
+                              } else {
+                                onTap();
+                              }
+                            },
                             trailing: IconButton(
-                              onPressed: () => settings[index]['onTap'](context), // Pass the context
+                              onPressed: () {
+                                // Wrap the function to pass context if needed
+                                if (onTap is Function(BuildContext)) {
+                                  onTap(context);
+                                } else {
+                                  onTap();
+                                }
+                              },
                               icon: Icon(
                                 Icons.arrow_forward_ios,
                                 size: h * 0.022,
@@ -211,7 +280,6 @@ class ProfilePage extends StatelessWidget {
                           );
                         },
                       )
-
                     ],
                   ),
                 ),

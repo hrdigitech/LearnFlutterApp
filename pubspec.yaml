@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  rate_my_app:
+  flutter_widget_from_html:
+  share_plus:
   get:
   flutter_svg:
   shared_preferences:

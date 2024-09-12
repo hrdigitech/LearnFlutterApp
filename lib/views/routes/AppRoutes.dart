@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
+import 'package:learn_flutter/views/screens/AboutUsPage.dart';
 import 'package:learn_flutter/views/screens/BottomNavigationPage.dart';
+import 'package:learn_flutter/views/screens/ChangePasswordPage.dart';
 import 'package:learn_flutter/views/screens/EnterCodePage.dart';
 import 'package:learn_flutter/views/screens/ForgetPassword.dart';
 import 'package:learn_flutter/views/screens/LatestPage.dart';
 import 'package:learn_flutter/views/screens/NewPasswordPage.dart';
 import 'package:learn_flutter/views/screens/PlaylistDetailPage.dart';
 import 'package:learn_flutter/views/screens/PlaylistPage.dart';
+import 'package:learn_flutter/views/screens/PrivacyPolicyPage.dart';
 import 'package:learn_flutter/views/screens/SignInScreen.dart';
 import 'package:learn_flutter/views/screens/SignUpScreen.dart';
 import 'package:learn_flutter/views/screens/TrendingPage.dart';
@@ -28,6 +31,10 @@ class AppRoutes {
   static const String LATESTPAGE = "/latest_page";
   static const String TRENDINGPAGE = "/trending_page";
   static const String VIDEODETAILPAGE = "/video_detail_page";
+  static const String PRIVACYPOLICY = "/privacy_policy_page";
+  static const String ABOUTUSPAGE = "/about_us_page";
+  static const String CHANGEPASSWORDPAGE = "/change_password_page";
+  static const String EDITPROFILEPAGE = "/edit_profile_page";
 
   static final routes = [
     GetPage(
@@ -80,6 +87,22 @@ class AppRoutes {
     ),
     GetPage(
       name: VIDEODETAILPAGE,
+      page: () => VideoDetailsPage(),
+    ),
+    GetPage(
+      name: PRIVACYPOLICY,
+      page: () => PrivacyPolicyPage(),
+    ),
+    GetPage(
+      name: ABOUTUSPAGE,
+      page: () => AboutUsPage(),
+    ),
+    GetPage(
+      name: CHANGEPASSWORDPAGE,
+      page: () => ChangePasswordPage(),
+    ),
+    GetPage(
+      name: EDITPROFILEPAGE,
       page: () => VideoDetailsPage(),
     ),
   ];
