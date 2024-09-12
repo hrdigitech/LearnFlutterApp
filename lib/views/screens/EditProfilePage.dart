@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learn_flutter/controller/ChangePasswordController.dart';
+import 'package:learn_flutter/controller/EditProfileController.dart';
 import 'package:learn_flutter/views/components/BlackAuthField.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../utils/LinearColorUtils.dart';
 import '../utils/SVGUtils.dart';
 
-class ChangePasswordPage extends StatelessWidget {
-  ChangePasswordPage({super.key});
+class EditProfilePage extends StatelessWidget {
+  EditProfilePage({super.key});
 
-  final ChangePasswordController controller =
-      Get.put(ChangePasswordController());
+  final EditProfileController controller = Get.put(
+    EditProfileController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class ChangePasswordPage extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    ImageUtils.ImagePath + ImageUtils.ChangePasswordHeader,
+                    ImageUtils.ImagePath + ImageUtils.EditProfileHeader,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -52,7 +53,7 @@ class ChangePasswordPage extends StatelessWidget {
                     height: h * 0.03,
                   ),
                   Text(
-                    "Change Password",
+                    "Edit Profile",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -71,34 +72,50 @@ class ChangePasswordPage extends StatelessWidget {
                     key: controller.formKey,
                     child: Column(
                       children: [
-                        BlackAuthField(
-                          controller: controller.oldPasswordController,
-                          hintText: "Enter Old Password",
-                          label: "Old Password",
-                          svgIcon: SVGUtils.kLock,
-                          validator: controller.validatePassword,
+                        Container(
+                          height: h * 0.16,
+                          width: h * 0.16,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                ImageUtils.ImagePath + ImageUtils.SignUpVector,
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         SizedBox(height: h * 0.02),
                         BlackAuthField(
-                          controller: controller.passwordController,
-                          hintText: "Enter New Password",
-                          label: "New Password",
-                          svgIcon: SVGUtils.kLock,
-                          validator: controller.validatePassword,
+                          controller: controller.usernameController,
+                          hintText: "Enter Full Name",
+                          label: "Name",
+                          svgIcon: SVGUtils.kUser,
+                          validator: (value) => controller.validateName(value),
                         ),
                         SizedBox(height: h * 0.02),
                         BlackAuthField(
-                          controller: controller.confirmPasswordController,
-                          hintText: "Confirm New Password",
-                          label: "Confirm Password",
+                          controller: controller.contactController,
+                          hintText: "Enter Contact Number",
+                          label: "Contact Number",
                           svgIcon: SVGUtils.kLock,
-                          validator: controller.validateConfirmPassword,
+                          validator: (value) =>
+                              controller.validatePhoneNumber(value),
+                        ),
+                        SizedBox(height: h * 0.02),
+                        BlackAuthField(
+                          controller: controller.mailController,
+                          hintText: "Enter Email",
+                          label: "Email Address",
+                          svgIcon: SVGUtils.kLock,
+                          validator: (value) => controller.validateEmail(value),
                         ),
                         SizedBox(height: h * 0.04),
                         GestureDetector(
                           onTap: () {
                             if (controller.formKey.currentState!.validate()) {
-                              controller.onChangePasswordOnTap();
+                              controller.onSaveOnTap();
                             }
                           },
                           child: Container(

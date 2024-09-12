@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:learn_flutter/views/screens/AboutUsPage.dart';
 import 'package:learn_flutter/views/screens/BottomNavigationPage.dart';
 import 'package:learn_flutter/views/screens/ChangePasswordPage.dart';
+import 'package:learn_flutter/views/screens/EditProfilePage.dart';
 import 'package:learn_flutter/views/screens/EnterCodePage.dart';
 import 'package:learn_flutter/views/screens/ForgetPassword.dart';
 import 'package:learn_flutter/views/screens/LatestPage.dart';
@@ -103,7 +104,7 @@ class AppRoutes {
     ),
     GetPage(
       name: EDITPROFILEPAGE,
-      page: () => VideoDetailsPage(),
+      page: () => EditProfilePage(),
     ),
   ];
 }
