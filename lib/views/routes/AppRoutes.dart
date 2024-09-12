@@ -9,6 +9,7 @@ import 'package:learn_flutter/views/screens/PlaylistPage.dart';
 import 'package:learn_flutter/views/screens/SignInScreen.dart';
 import 'package:learn_flutter/views/screens/SignUpScreen.dart';
 import 'package:learn_flutter/views/screens/TrendingPage.dart';
+import 'package:learn_flutter/views/screens/VideoDetailsPage.dart';
 
 import '../screens/HomePage.dart';
 import '../screens/SplashScreen.dart';
@@ -76,6 +77,10 @@ class AppRoutes {
     GetPage(
       name: TRENDINGPAGE,
       page: () => TrendingPage(),
+    ),
+    GetPage(
+      name: VIDEODETAILPAGE,
+      page: () => VideoDetailsPage(),
     ),
   ];
 }

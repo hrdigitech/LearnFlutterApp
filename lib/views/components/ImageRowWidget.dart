@@ -32,7 +32,7 @@ class ImageRowWidget extends StatelessWidget {
             padding: EdgeInsets.only(right: w * 0.06),
             child: GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.PLAYLISTDETAILPAGE);
+                Get.toNamed(AppRoutes.VIDEODETAILPAGE);
               },
               child: Container(
                 height: h * 0.18,
