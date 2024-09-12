@@ -3,6 +3,8 @@ import 'package:learn_flutter/views/screens/BottomNavigationPage.dart';
 import 'package:learn_flutter/views/screens/EnterCodePage.dart';
 import 'package:learn_flutter/views/screens/ForgetPassword.dart';
 import 'package:learn_flutter/views/screens/NewPasswordPage.dart';
+import 'package:learn_flutter/views/screens/PlaylistDetailPage.dart';
+import 'package:learn_flutter/views/screens/PlaylistPage.dart';
 import 'package:learn_flutter/views/screens/SignInScreen.dart';
 import 'package:learn_flutter/views/screens/SignUpScreen.dart';
 
@@ -18,6 +20,10 @@ class AppRoutes {
   static const String ENTERCODEPAGE = "/enter_code_page";
   static const String NEWPASSWORDPAGE = "/new_password_page";
   static const String BOTTOMNAVIGATION = "/bottom_navigation_page";
+  static const String PLAYLISTPAGE = "/playlist_page";
+  static const String PLAYLISTDETAILPAGE = "/playlist_detail_page";
+  static const String LATESTPAGE = "/latest_page";
+  static const String TRENDINGPAGE = "/trending_page";
 
   static final routes = [
     GetPage(
@@ -51,6 +57,22 @@ class AppRoutes {
     GetPage(
       name: BOTTOMNAVIGATION,
       page: () => BottomNavigationPage(),
+    ),
+    GetPage(
+      name: PLAYLISTPAGE,
+      page: () => PlaylistPage(),
+    ),
+    GetPage(
+      name: PLAYLISTDETAILPAGE,
+      page: () => PlaylistDetailPage(),
+    ),
+    GetPage(
+      name: LATESTPAGE,
+      page: () => PlaylistPage(),
+    ),
+    GetPage(
+      name: TRENDINGPAGE,
+      page: () => PlaylistPage(),
     ),
   ];
 }

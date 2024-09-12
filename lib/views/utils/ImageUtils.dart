@@ -6,4 +6,5 @@ class ImageUtils{
   static String ForgetPasswordVector = "ForgetPasswordVector.png";
   static String NewPasswordVector = "NewPasswordVector.png";
   static String HomeHeader = "HomeHeader.png";
+  static String PlaylistHeader = "PlaylistHeader.png";
 }
