@@ -16,4 +16,7 @@ class ImageUtils{
   static String LatestHeader = "LatestHeader.png";
   static String ChangePasswordHeader = "ChangePasswordHeader.png";
   static String AboutHeader = "AboutHeader.png";
+  static String Github = "Github.png";
+  static String Linkdin = "Linkdin.png";
+  static String Youtube = "Youtube.png";
 }

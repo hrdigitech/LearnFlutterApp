@@ -77,7 +77,7 @@ class SearchPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: h * 0.01,
+              height: h * 0.02,
             ),
             Container(
               height: h * 0.06,
@@ -132,13 +132,17 @@ class SearchPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: h * 0.01,
+              height: h * 0.02,
             ),
             Flexible(
               flex: 8,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(h * 0.02),
+                  padding: EdgeInsets.only(
+                    left: h * 0.02,
+                    right: h * 0.02,
+                    bottom: h * 0.02,
+                  ),
                   child: Column(
                     children: playlistItems.map((item) {
                       return Column(
