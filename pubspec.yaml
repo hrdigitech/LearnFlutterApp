@@ -19,12 +19,13 @@ dependencies:
   pin_input_text_field:
   curved_navigation_bar:
   carousel_slider:
-  url_launcher: 
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.9.2
 
 flutter:
 
@@ -33,3 +34,8 @@ flutter:
     - assets/
     - assets/images/
     - assets/svg/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/AppLogo.png"
