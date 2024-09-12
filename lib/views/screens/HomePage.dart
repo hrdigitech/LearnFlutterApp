@@ -3,6 +3,7 @@ import 'package:learn_flutter/views/components/ImageRowWidget.dart';
 import 'package:learn_flutter/views/components/ImageSlider.dart';
 import 'package:learn_flutter/views/utils/ColorUtils.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
+import '../components/CategoryBox.dart';
 import '../components/TitleText.dart';
 
 class HomePage extends StatelessWidget {
@@ -31,12 +32,9 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Aligning the text in the middle vertically
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    // Centering vertically
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    // Align text to the left
                     children: [
                       Text(
                         "Hello Dear",
@@ -55,7 +53,6 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Aligning the image in the center
                   Container(
                     height: h * 0.06,
                     width: h * 0.06,
@@ -87,95 +84,43 @@ class HomePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Container(
-                              height: h * 0.12,
-                              decoration: BoxDecoration(
-                                color: ColorUtils.primaryColor,
-                                borderRadius: BorderRadius.circular(
-                                  h * 0.01,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.green.withOpacity(0.25),
-                                    offset: Offset(0, 0),
-                                    blurRadius: 14,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Playlist",
-                                  style: TextStyle(
-                                    fontSize: h * 0.02,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                            child: CategoryBox(
+                              title: "Playlist",
+                              backgroundColor: ColorUtils.primaryColor,
+                              textColor: Colors.white,
+                              boxShadow: BoxShadow(
+                                color: Colors.green.withOpacity(0.25),
+                                offset: Offset(0, 0),
+                                blurRadius: 14,
+                                spreadRadius: 2,
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: h * 0.02,
-                          ),
+                          SizedBox(width: h * 0.02),
                           Expanded(
-                            child: Container(
-                              height: h * 0.12,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(
-                                  h * 0.01,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.25),
-                                    offset: Offset(0, 0),
-                                    blurRadius: 10,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Latest",
-                                  style: TextStyle(
-                                    fontSize: h * 0.02,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                            child: CategoryBox(
+                              title: "Latest",
+                              backgroundColor: Colors.white,
+                              textColor: Colors.black,
+                              boxShadow: BoxShadow(
+                                color: Colors.black.withOpacity(0.25),
+                                offset: Offset(0, 0),
+                                blurRadius: 10,
+                                spreadRadius: 2,
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: h * 0.02,
-                          ),
+                          SizedBox(width: h * 0.02),
                           Expanded(
-                            child: Container(
-                              height: h * 0.12,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(
-                                  h * 0.01,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.25),
-                                    offset: Offset(0, 0),
-                                    blurRadius: 10,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Trending",
-                                  style: TextStyle(
-                                    fontSize: h * 0.02,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                            child: CategoryBox(
+                              title: "Trending",
+                              backgroundColor: Colors.white,
+                              textColor: Colors.black,
+                              boxShadow: BoxShadow(
+                                color: Colors.black.withOpacity(0.25),
+                                offset: Offset(0, 0),
+                                blurRadius: 10,
+                                spreadRadius: 2,
                               ),
                             ),
                           ),
