@@ -1,7 +1,7 @@
 name: learn_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.2
+version: 2.0.2
 
 environment:
   sdk: ^3.5.2
