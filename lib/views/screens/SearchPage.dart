@@ -111,6 +111,7 @@ class SearchPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextField(
+                      textAlignVertical: TextAlignVertical.center,  // Align text vertically in the center
                       decoration: InputDecoration(
                         hintText: "Search Above Flutter",
                         hintStyle: TextStyle(
@@ -119,7 +120,7 @@ class SearchPage extends StatelessWidget {
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(
                           horizontal: h * 0.02,
-                          vertical: h * 0.015,
+                          vertical: h * 0.012,
                         ),
                       ),
                       style: TextStyle(

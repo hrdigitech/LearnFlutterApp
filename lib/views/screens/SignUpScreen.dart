@@ -188,29 +188,20 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: h * 0.02),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.SIGNINSCREEN);
+                        },
+                        child: Text(
                           "Already have an account?",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: h * 0.016),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed(AppRoutes.SIGNINSCREEN);
-                          },
-                          child: Text(
-                            "SIGN IN?",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.016),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
