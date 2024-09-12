@@ -26,6 +26,7 @@ class AppRoutes {
   static const String PLAYLISTDETAILPAGE = "/playlist_detail_page";
   static const String LATESTPAGE = "/latest_page";
   static const String TRENDINGPAGE = "/trending_page";
+  static const String VIDEODETAILPAGE = "/video_detail_page";
 
   static final routes = [
     GetPage(

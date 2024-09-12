@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:learn_flutter/views/routes/AppRoutes.dart';
 
 class ImageRowWidget extends StatelessWidget {
   // Dummy data
@@ -28,16 +30,21 @@ class ImageRowWidget extends StatelessWidget {
         children: images.map((imageData) {
           return Padding(
             padding: EdgeInsets.only(right: w * 0.06),
-            child: Container(
-              height: h * 0.18,
-              width: w * 0.76,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(h * 0.01),
-                image: DecorationImage(
-                  image: NetworkImage(imageData['imageUrl']!),
-                  fit: BoxFit.cover,
+            child: GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.PLAYLISTDETAILPAGE);
+              },
+              child: Container(
+                height: h * 0.18,
+                width: w * 0.76,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(h * 0.01),
+                  image: DecorationImage(
+                    image: NetworkImage(imageData['imageUrl']!),
+                    fit: BoxFit.cover,
+                  ),
+                  color: Colors.black,
                 ),
-                color: Colors.black,
               ),
             ),
           );
