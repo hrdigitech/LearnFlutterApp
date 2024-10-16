@@ -3,6 +3,7 @@ import 'package:learn_flutter/views/components/ImageRowWidget.dart';
 import 'package:learn_flutter/views/components/ImageSlider.dart';
 import 'package:learn_flutter/views/utils/ColorUtils.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
+import 'package:learn_flutter/views/utils/VarUtils.dart';
 import '../components/CategoryBox.dart';
 import '../components/TitleText.dart';
 
@@ -37,7 +38,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hello Dear",
+                        "Hello ${VarUtils.Name}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,

@@ -8,7 +8,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(SplashController(),);
+    Get.put(SplashController());
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -17,7 +17,8 @@ class SplashScreen extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage(
               ImageUtils.ImagePath + ImageUtils.SplashScreen,
-            ),fit: BoxFit.cover,
+            ),
+            fit: BoxFit.cover,
           ),
         ),
       ),
