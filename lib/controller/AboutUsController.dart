@@ -14,7 +14,7 @@ class AboutUsController extends GetxController {
 
   Future<void> fetchPrivacyPolicy() async {
     try {
-      var request = await HttpClient().getUrl(Uri.parse('https://customize.brainartit.com/wallpaper/webservices/privacy_policy.php'));
+      var request = await HttpClient().getUrl(Uri.parse('https://customize.hkdigiverse.com/hrcodeexpert/api/about-us'));
       var response = await request.close();
 
       if (response.statusCode == 200) {

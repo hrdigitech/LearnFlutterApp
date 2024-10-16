@@ -61,8 +61,10 @@ class HomePage extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: Colors.black,
                       image: DecorationImage(
-                        image: AssetImage(
-                          ImageUtils.ImagePath + ImageUtils.SignUpVector,
+                        image: NetworkImage(
+                          VarUtils.ProfileImage == ''
+                              ? "https://customize.brainartit.com/ecommerce/storage/app/public/user-image/Default.png"
+                              : VarUtils.ProfileImage,
                         ),
                         fit: BoxFit.cover,
                       ),

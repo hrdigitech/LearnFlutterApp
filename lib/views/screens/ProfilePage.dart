@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/views/components/TitleText.dart';
 import 'package:learn_flutter/views/routes/AppRoutes.dart';
+import 'package:learn_flutter/views/utils/VarUtils.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,10 +35,10 @@ class ProfilePage extends StatelessWidget {
       'onTap': () {
         Share.share(
           '🌟 Check out this amazing app: 🌟\n\n'
-              'Learn Flutter with ease and fun! 🚀\n\n'
-              'Download it now from the Google Play Store: 📱\n'
-              'https://play.google.com/store/apps/details?id=com.hrcodeexperts.learn_flutter\n\n'
-              'Your feedback is greatly appreciated! 😊',
+          'Learn Flutter with ease and fun! 🚀\n\n'
+          'Download it now from the Google Play Store: 📱\n'
+          'https://play.google.com/store/apps/details?id=com.hrcodeexperts.learn_flutter\n\n'
+          'Your feedback is greatly appreciated! 😊',
           subject: 'Check out this app!',
         );
       },
@@ -46,7 +47,8 @@ class ProfilePage extends StatelessWidget {
     },
     {
       'onTap': () async {
-        const url = 'https://play.google.com/store/apps/dev?id=5361587938495506523';
+        const url =
+            'https://play.google.com/store/apps/dev?id=5361587938495506523';
         if (await canLaunch(url)) {
           await launch(url);
         } else {
@@ -58,7 +60,7 @@ class ProfilePage extends StatelessWidget {
     },
     {
       'onTap': () async {
-        const url = 'https://www.hrdigitech.com';
+        const url = 'https://www.hkdigiverse.com';
         if (await canLaunch(url)) {
           await launch(url);
         } else {
@@ -93,7 +95,9 @@ class ProfilePage extends StatelessWidget {
 
   final List<Map<String, dynamic>> settings = [
     {
-      'onTap': () {
+      'onTap': () async {
+        VarUtils.clearAllVariables();
+        await VarUtils.removeVariablesSignInFromPrefs();
         Get.offAllNamed(AppRoutes.SIGNINSCREEN);
       },
       'icon': Icons.logout,
@@ -138,8 +142,10 @@ class ProfilePage extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: Colors.black,
                       image: DecorationImage(
-                        image: AssetImage(
-                          ImageUtils.ImagePath + ImageUtils.SignUpVector,
+                        image: NetworkImage(
+                          VarUtils.ProfileImage == ''
+                              ? "https://customize.brainartit.com/ecommerce/storage/app/public/user-image/Default.png"
+                              : VarUtils.ProfileImage,
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -147,7 +153,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(height: h * 0.02),
                   Text(
-                    "Admin",
+                    VarUtils.Name,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -155,7 +161,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "admin@gmail.com",
+                    VarUtils.Email,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: h * 0.022,
@@ -187,9 +193,11 @@ class ProfilePage extends StatelessWidget {
                           return ListTile(
                             leading: Icon(accountSetting[index]['icon']),
                             title: Text(accountSetting[index]['name']),
-                            onTap: accountSetting[index]['onTap'] as void Function()?,
+                            onTap: accountSetting[index]['onTap'] as void
+                                Function()?,
                             trailing: IconButton(
-                              onPressed: accountSetting[index]['onTap'] as void Function()?,
+                              onPressed: accountSetting[index]['onTap'] as void
+                                  Function()?,
                               icon: Icon(
                                 Icons.arrow_forward_ios,
                                 size: h * 0.022,

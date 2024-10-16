@@ -4,7 +4,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/controller/AboutUsController.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
-import '../../controller/PrivacyPolicyController.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
@@ -23,7 +22,7 @@ class AboutUsPage extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    ImageUtils.ImagePath + ImageUtils.PrivacyPolicyHeader,
+                    ImageUtils.ImagePath + ImageUtils.AboutHeader,
                   ),
                   fit: BoxFit.cover,
                 ),
