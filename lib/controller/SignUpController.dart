@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learn_flutter/views/routes/AppRoutes.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../views/routes/AppRoutes.dart';
+import '../views/utils/VarUtils.dart';
 
 class SignUpController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -10,6 +14,7 @@ class SignUpController extends GetxController {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController contactController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  var isLoading = false.obs;
 
   // Validator methods for each field
   String? validateEmail(String? value) {
@@ -55,13 +60,58 @@ class SignUpController extends GetxController {
     return true;
   }
 
-  // Method to handle Sign Up tap
-  void onSignUpTap() {
-    if (formKey.currentState!.validate()) {
-      Get.toNamed(AppRoutes.HOMEPAGE);
+  // API request for sign up
+  Future<void> onSignUpTap() async {
+    if (!formKey.currentState!.validate()) return;
+
+    isLoading.value = true;
+
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://customize.hkdigiverse.com/hrcodeexpert/api/sign-up'),
+    );
+    request.fields.addAll({
+      'mobile_no': contactController.text,
+      'name': usernameController.text,
+      'email': mailController.text,
+      'password': passwordController.text,
+    });
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String jsonResponse = await response.stream.bytesToString();
+      var responseData = json.decode(jsonResponse);
+
+      if (responseData['status'] == 1) {
+        var data = responseData['data'];
+
+        // Save data to VarUtils
+        VarUtils.Email = data['email'];
+        VarUtils.Name = data['username'];
+        VarUtils.ID = data['id'];
+        VarUtils.Password = passwordController.text;
+        VarUtils.phoneNumber = data['phone'].toString();
+        VarUtils.ProfileImage = data['profile_image'] ?? '';
+
+        // Save data to SharedPreferences
+        await VarUtils.saveVariablesSignInToPrefs();
+
+        // Clear input fields
+        mailController.clear();
+        passwordController.clear();
+        contactController.clear();
+        usernameController.clear();
+
+        Get.offNamed(AppRoutes.BOTTOMNAVIGATION);
+      } else {
+        Get.snackbar("Oops...", responseData['message']);
+      }
     } else {
-      Get.snackbar("Error", "Please fill all fields correctly");
+      Get.snackbar("Oops...", "Sign-up failed: ${response.reasonPhrase}");
     }
+
+    isLoading.value = false;
   }
 
   @override
