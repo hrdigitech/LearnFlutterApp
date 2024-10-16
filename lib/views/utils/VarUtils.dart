@@ -13,11 +13,13 @@ class VarUtils {
   static int PaymentStatus = 0;
   static int? PaymentMoney;
   static int? SelectedCard = 2;
+  static String ProfileImage = '';
 
   static void clearAllVariables() {
     phoneNumber = '';
     Name = '';
     Email = '';
+    ProfileImage = '';
     Password = '';
     PaymentID = 'None';
     ID = 0;
@@ -32,6 +34,7 @@ class VarUtils {
     prefs.setString('Name', VarUtils.Name);
     prefs.setString('Email', VarUtils.Email);
     prefs.setString('Password', VarUtils.Password);
+    prefs.setString('ProfileImage', VarUtils.ProfileImage);
     prefs.setInt('ID', VarUtils.ID);
   }
 
@@ -58,6 +61,7 @@ class VarUtils {
     VarUtils.Name = prefs.getString('Name') ?? '';
     VarUtils.Email = prefs.getString('Email') ?? '';
     VarUtils.Password = prefs.getString('Password') ?? '';
+    VarUtils.ProfileImage = prefs.getString('ProfileImage') ?? '';
     VarUtils.ID = prefs.getInt('ID') ?? 0;
   }
 
@@ -85,6 +89,7 @@ class VarUtils {
     await prefs.remove('Name');
     await prefs.remove('Email');
     await prefs.remove('Password');
+    await prefs.remove('ProfileImage');
     await prefs.remove('ID');
   }
 
