@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learn_flutter/controller/EnterCodeController.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import '../routes/AppRoutes.dart';
+import '../../controller/EnterCodeController.dart';
 import '../utils/LinearColorUtils.dart';
+import '../routes/AppRoutes.dart';
 
 class EnterCodePage extends StatelessWidget {
   final EnterCodeController controller = Get.put(
@@ -15,6 +15,7 @@ class EnterCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -26,19 +27,13 @@ class EnterCodePage extends StatelessWidget {
           ),
           child: SafeArea(
             child: Padding(
-              padding: EdgeInsets.all(
-                h * 0.02,
-              ),
+              padding: EdgeInsets.all(h * 0.02),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(
-                    h * 0.024,
-                  ),
+                  padding: EdgeInsets.all(h * 0.024),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: h * 0.1,
-                      ),
+                      SizedBox(height: h * 0.1),
                       Text(
                         "Enter Code",
                         style: TextStyle(
@@ -47,7 +42,7 @@ class EnterCodePage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "An Authentication Code Has Sent To test@gmail.com",
+                        "An Authentication Code Has Sent To ${controller.email}",
                         style: TextStyle(
                           fontSize: h * 0.024,
                           fontWeight: FontWeight.bold,
@@ -69,31 +64,26 @@ class EnterCodePage extends StatelessWidget {
                         ),
                         onChanged: (pin) {
                           if (pin.length == 6) {
-                            try {
-                              log("Received OTP: $pin");
-                            } catch (e) {
-                              log("$e");
-                            }
+                            log("Received OTP: $pin");
                           }
                         },
                       ),
-                      SizedBox(
-                        height: h * 0.02,
-                      ),
+                      SizedBox(height: h * 0.02),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "If you don’t receive code! ",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.016),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: h * 0.016,
+                            ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () => controller.resendOtp,
                             child: Text(
-                              "Resent",
+                              "Resend",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -107,43 +97,45 @@ class EnterCodePage extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: h * 0.04),
-                      GestureDetector(
-                        onTap: () {
-                          controller.onVerifyOnTap();
-                        },
-                        child: Container(
-                          height: h * 0.06,
-                          width: w,
-                          decoration: BoxDecoration(
-                            gradient: LinearColorUtils.secondGradient(),
-                            borderRadius: BorderRadius.circular(
-                              h * 0.01,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "VERIFY",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.024,
-                                color: Colors.black,
+                      Obx(() => GestureDetector(
+                            onTap: () {
+                              if (!controller.isLoading.value) {
+                                controller.onVerifyOnTap();
+                              }
+                            },
+                            child: Container(
+                              height: h * 0.06,
+                              width: w,
+                              decoration: BoxDecoration(
+                                gradient: LinearColorUtils.secondGradient(),
+                                borderRadius: BorderRadius.circular(h * 0.01),
+                              ),
+                              child: Center(
+                                child: controller.isLoading.value
+                                    ? CircularProgressIndicator(
+                                        color: Colors.black)
+                                    : Text(
+                                        "VERIFY",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: h * 0.024,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: h * 0.02,
-                      ),
+                          )),
+                      SizedBox(height: h * 0.02),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Back to ",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.016),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: h * 0.016,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
