@@ -76,8 +76,11 @@ class PlaylistPage extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // Pass the ID of the selected playlist item to the next page
-                                Get.toNamed(AppRoutes.PLAYLISTDETAILPAGE, arguments: item.id);
+                                Get.toNamed(AppRoutes.PLAYLISTDETAILPAGE, arguments: {
+                                  'id': item.id,
+                                  'title': item.name,
+
+                                },);
                               },
                               child: Container(
                                 height: h * 0.24,
