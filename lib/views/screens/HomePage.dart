@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter/views/components/ImageRowWidget.dart';
+import 'package:get/get.dart';
+import 'package:learn_flutter/views/components/LatestRowWidget.dart';
+import 'package:learn_flutter/views/components/TrendingRowWidget.dart';
 import 'package:learn_flutter/views/components/ImageSlider.dart';
 import 'package:learn_flutter/views/utils/ColorUtils.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import 'package:learn_flutter/views/utils/VarUtils.dart';
+import '../../controller/LatestController.dart';
+import '../../controller/PlaylistController.dart';
+import '../../controller/TrendingController.dart';
 import '../components/CategoryBox.dart';
+import '../components/PlaylistRowWidget.dart';
 import '../components/TitleText.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final TrendingController trendingController = Get.put(TrendingController());
+  final LatestController latestController = Get.put(LatestController());
+  final PlaylistController playlistController = Get.put(PlaylistController());
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +158,15 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: h * 0.02,
                       ),
-                      ImageRowWidget(),
+                      Obx(() {
+                        if (playlistController.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (playlistController.errorMessage.isNotEmpty) {
+                          return Center(child: Text(playlistController.errorMessage.value));
+                        }
+                        return PlaylistRowWidget(playlistItems: playlistController.playlist);
+                      }),
                       SizedBox(
                         height: h * 0.02,
                       ),
@@ -161,7 +177,19 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: h * 0.02,
                       ),
-                      ImageRowWidget(),
+                      Obx(() {
+                        if (latestController.isLoading.value) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (latestController.errorMessage.isNotEmpty) {
+                          return Center(
+                              child: Text(latestController.errorMessage.value));
+                        }
+                        return LatestRowWidget(
+                            latestItems: latestController.latestList);
+                      }),
                       SizedBox(
                         height: h * 0.02,
                       ),
@@ -172,7 +200,20 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: h * 0.02,
                       ),
-                      ImageRowWidget(),
+                      Obx(() {
+                        if (trendingController.isLoading.value) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (trendingController.errorMessage.isNotEmpty) {
+                          return Center(
+                              child:
+                                  Text(trendingController.errorMessage.value));
+                        }
+
+                        // Use the trending list from the controller
+                        return TrendingRowWidget(
+                            trendingItems: trendingController.trendingList);
+                      }),
                       SizedBox(
                         height: h * 0.02,
                       ),

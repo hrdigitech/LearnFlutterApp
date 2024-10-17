@@ -35,9 +35,9 @@ class BlackAuthField extends StatelessWidget {
         TextFormField(
           controller: controller,
           validator: validator,
-          obscureText: true,
           style: TextStyle(fontSize: h * 0.015, color: Colors.black),
-          keyboardType: TextInputType.visiblePassword,
+          keyboardType: TextInputType.name,
+          obscureText: false,
           decoration: InputDecoration(
             filled: false,
             border: OutlineInputBorder(

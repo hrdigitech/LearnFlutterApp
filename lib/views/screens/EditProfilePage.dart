@@ -6,13 +6,12 @@ import 'package:learn_flutter/views/components/BlackAuthField.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../utils/LinearColorUtils.dart';
 import '../utils/SVGUtils.dart';
+import '../utils/VarUtils.dart';
 
 class EditProfilePage extends StatelessWidget {
   EditProfilePage({super.key});
 
-  final EditProfileController controller = Get.put(
-    EditProfileController(),
-  );
+  final EditProfileController controller = Get.put(EditProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -72,20 +71,30 @@ class EditProfilePage extends StatelessWidget {
                     key: controller.formKey,
                     child: Column(
                       children: [
-                        Container(
-                          height: h * 0.16,
-                          width: h * 0.16,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.black,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                ImageUtils.ImagePath + ImageUtils.SignUpVector,
+                        // Profile image section
+                        Obx(() => GestureDetector(
+                          onTap: () {
+                            controller.pickImage();
+                          },
+                          child: Container(
+                            height: h * 0.16,
+                            width: h * 0.16,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black,
+                              image: DecorationImage(
+                                image: controller.selectedImage.value != null
+                                    ? FileImage(controller.selectedImage.value!) // Show picked image
+                                    : NetworkImage(
+                                  VarUtils.ProfileImage.isEmpty
+                                      ? "https://customize.brainartit.com/ecommerce/storage/app/public/user-image/Default.png"
+                                      : VarUtils.ProfileImage,
+                                ) as ImageProvider,
+                                fit: BoxFit.cover,
                               ),
-                              fit: BoxFit.cover,
                             ),
                           ),
-                        ),
+                        )),
                         SizedBox(height: h * 0.02),
                         BlackAuthField(
                           controller: controller.usernameController,
@@ -99,23 +108,24 @@ class EditProfilePage extends StatelessWidget {
                           controller: controller.contactController,
                           hintText: "Enter Contact Number",
                           label: "Contact Number",
-                          svgIcon: SVGUtils.kLock,
-                          validator: (value) =>
-                              controller.validatePhoneNumber(value),
+                          svgIcon: SVGUtils.kCall,
+                          validator: (value) => controller.validatePhoneNumber(value),
                         ),
                         SizedBox(height: h * 0.02),
                         BlackAuthField(
                           controller: controller.mailController,
                           hintText: "Enter Email",
                           label: "Email Address",
-                          svgIcon: SVGUtils.kLock,
+                          svgIcon: SVGUtils.kMail,
                           validator: (value) => controller.validateEmail(value),
                         ),
                         SizedBox(height: h * 0.04),
-                        GestureDetector(
+                        Obx(() => GestureDetector(
                           onTap: () {
-                            if (controller.formKey.currentState!.validate()) {
-                              controller.onSaveOnTap();
+                            if (!controller.isLoading.value) {
+                              if (controller.formKey.currentState!.validate()) {
+                                controller.onSaveOnTap();
+                              }
                             }
                           },
                           child: Container(
@@ -127,18 +137,17 @@ class EditProfilePage extends StatelessWidget {
                                 h * 0.01,
                               ),
                             ),
-                            child: Center(
-                              child: Text(
-                                "SAVE",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: h * 0.024,
-                                  color: Colors.black,
-                                ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              controller.isLoading.value ? "Please wait..." : "Save",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: h * 0.02,
                               ),
                             ),
                           ),
-                        ),
+                        )),
                       ],
                     ),
                   ),
