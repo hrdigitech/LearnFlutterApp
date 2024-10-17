@@ -12,6 +12,9 @@ class LatestItem {
   final int followers;
   final String description;
   final String youtubeLink;
+  final String createdAt;
+  final int playlistId;
+  final String playlist_name;
 
   LatestItem({
     required this.id,
@@ -23,6 +26,9 @@ class LatestItem {
     required this.followers,
     required this.description,
     required this.youtubeLink,
+    required this.createdAt,
+    required this.playlistId,
+    required this.playlist_name,
   });
 
   factory LatestItem.fromJson(Map<String, dynamic> json) {
@@ -36,10 +42,12 @@ class LatestItem {
       followers: json['followers'] ?? 0,
       description: json['description'] ?? '',
       youtubeLink: json['youtube_link'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      playlistId: json['playlist_id'] ?? 0,
+      playlist_name: json['playlist_name'],
     );
   }
 }
-
 
 class LatestController extends GetxController {
   var latestList = <LatestItem>[].obs;

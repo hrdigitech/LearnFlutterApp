@@ -13,6 +13,8 @@ class TrendingItem {
   final int followers;
   final String description;
   final String youtubeLink;
+  final String createdAt;
+  final String playlist_name;
 
   TrendingItem({
     required this.id,
@@ -24,6 +26,8 @@ class TrendingItem {
     required this.followers,
     required this.description,
     required this.youtubeLink,
+    required this.createdAt,
+    required this.playlist_name,
   });
 
   factory TrendingItem.fromJson(Map<String, dynamic> json) {
@@ -37,9 +41,12 @@ class TrendingItem {
       followers: json['followers'],
       description: json['description'],
       youtubeLink: json['youtube_link'],
+      createdAt: json['created_at'],
+      playlist_name: json['playlist_name'],
     );
   }
 }
+
 
 class TrendingController extends GetxController {
   var trendingList = <TrendingItem>[].obs;
