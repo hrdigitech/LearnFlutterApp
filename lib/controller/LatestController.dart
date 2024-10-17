@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:learn_flutter/views/utils/VarUtils.dart';
+
 class LatestItem {
   final int id;
   final String thumbnail;
@@ -15,6 +17,7 @@ class LatestItem {
   final String createdAt;
   final int playlistId;
   final String playlist_name;
+  final bool islike; // New field
 
   LatestItem({
     required this.id,
@@ -29,6 +32,7 @@ class LatestItem {
     required this.createdAt,
     required this.playlistId,
     required this.playlist_name,
+    required this.islike, // Include in constructor
   });
 
   factory LatestItem.fromJson(Map<String, dynamic> json) {
@@ -44,7 +48,8 @@ class LatestItem {
       youtubeLink: json['youtube_link'] ?? '',
       createdAt: json['created_at'] ?? '',
       playlistId: json['playlist_id'] ?? 0,
-      playlist_name: json['playlist_name'],
+      playlist_name: json['playlist_name'] ?? '',
+      islike: json['islike'] ?? false, // Parse the new field
     );
   }
 }
@@ -63,16 +68,25 @@ class LatestController extends GetxController {
   Future<void> fetchLatestPlaylist() async {
     try {
       isLoading(true);
-      var request = http.Request('GET', Uri.parse('https://customize.hkdigiverse.com/hrcodeexpert/api/latest-playlist'));
+
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'https://customize.hkdigiverse.com/hrcodeexpert/api/latest-playlist'));
+
+      request.fields['user_id'] = VarUtils.ID.toString();
+
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         String jsonResponse = await response.stream.bytesToString();
         var data = json.decode(jsonResponse)['data'] as List;
 
-        latestList.value = data.map((item) => LatestItem.fromJson(item)).toList();
+        latestList.value =
+            data.map((item) => LatestItem.fromJson(item)).toList();
       } else {
-        errorMessage('Failed to fetch data. Status code: ${response.statusCode}');
+        errorMessage(
+            'Failed to fetch data. Status code: ${response.statusCode}');
       }
     } catch (e) {
       errorMessage('Error: $e');

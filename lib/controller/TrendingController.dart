@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:learn_flutter/views/utils/VarUtils.dart';
 
-// Model to represent each item in the trending playlist
 class TrendingItem {
   final int id;
   final String thumbnail;
@@ -15,6 +15,7 @@ class TrendingItem {
   final String youtubeLink;
   final String createdAt;
   final String playlist_name;
+  final bool islike; // New field
 
   TrendingItem({
     required this.id,
@@ -28,25 +29,26 @@ class TrendingItem {
     required this.youtubeLink,
     required this.createdAt,
     required this.playlist_name,
+    required this.islike, // Include in constructor
   });
 
   factory TrendingItem.fromJson(Map<String, dynamic> json) {
     return TrendingItem(
       id: json['id'],
-      thumbnail: json['thumbnail'],
-      title: json['title'],
-      view: json['view'],
-      like: json['like'],
-      comment: json['comment'],
-      followers: json['followers'],
-      description: json['description'],
-      youtubeLink: json['youtube_link'],
-      createdAt: json['created_at'],
-      playlist_name: json['playlist_name'],
+      thumbnail: json['thumbnail'] ?? '',
+      title: json['title'] ?? '',
+      view: json['view'] ?? 0,
+      like: json['like'] ?? 0,
+      comment: json['comment'] ?? 0,
+      followers: json['followers'] ?? 0,
+      description: json['description'] ?? '',
+      youtubeLink: json['youtube_link'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      playlist_name: json['playlist_name'] ?? '',
+      islike: json['islike'] ?? false, // Parse the new field
     );
   }
 }
-
 
 class TrendingController extends GetxController {
   var trendingList = <TrendingItem>[].obs;
@@ -60,13 +62,22 @@ class TrendingController extends GetxController {
   }
 
   Future<void> fetchTrendingPlaylist() async {
-    final url = 'https://customize.hkdigiverse.com/hrcodeexpert/api/trending-playlist';
+    final url =
+        'https://customize.hkdigiverse.com/hrcodeexpert/api/trending-playlist';
 
     try {
-      final response = await http.get(Uri.parse(url));
+      isLoading(true);
+
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields.addAll({
+        'user_id': VarUtils.ID.toString(),
+      });
+
+      http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        String jsonResponse = await response.stream.bytesToString();
+        final data = jsonDecode(jsonResponse);
 
         if (data['status'] == 1) {
           trendingList.value = (data['data'] as List)
@@ -81,7 +92,7 @@ class TrendingController extends GetxController {
     } catch (e) {
       errorMessage.value = 'An error occurred: $e';
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 }
