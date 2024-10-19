@@ -81,6 +81,7 @@ class LatestPage extends StatelessWidget {
                                   AppRoutes.VIDEODETAILPAGE,
                                   arguments: item.id,
                                 );
+                                print('ITEMMMM${item.id}');
                               },
                               child: Container(
                                 height: h * 0.2,

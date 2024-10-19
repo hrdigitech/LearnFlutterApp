@@ -20,13 +20,13 @@ import '../screens/SplashScreen.dart';
 
 class AppRoutes {
   static const String SPLASH = "/";
-  static const String HOMEPAGE = "/home";
   static const String SIGNINSCREEN = "/sign_in_screen";
   static const String SIGNUPSCREEN = "/sign_up_screen";
   static const String FORGETPASSWORD = "/forget_password";
   static const String ENTERCODEPAGE = "/enter_code_page";
   static const String NEWPASSWORDPAGE = "/new_password_page";
   static const String BOTTOMNAVIGATION = "/bottom_navigation_page";
+  static const String HOMEPAGE = "/home";
   static const String PLAYLISTPAGE = "/playlist_page";
   static const String PLAYLISTDETAILPAGE = "/playlist_detail_page";
   static const String LATESTPAGE = "/latest_page";

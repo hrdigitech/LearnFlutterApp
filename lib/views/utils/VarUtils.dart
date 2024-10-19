@@ -36,6 +36,8 @@ class VarUtils {
     prefs.setString('Password', VarUtils.Password);
     prefs.setString('ProfileImage', VarUtils.ProfileImage);
     prefs.setInt('ID', VarUtils.ID);
+    print('Data saved: Email = ${VarUtils.Email}, ID = ${VarUtils.ID}'); // Debugging print
+
   }
 
   static Future<void> saveVariablesSignUpToPrefs() async {
