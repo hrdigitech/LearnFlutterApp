@@ -1,57 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
-
+import '../../controller/WishlistController.dart';
 import '../routes/AppRoutes.dart';
 
 class WishlistPage extends StatelessWidget {
-  WishlistPage({super.key});
+  final WishlistController wishlistController = Get.put(WishlistController());
 
-  final List<Map<String, String>> playlistItems = [
-    {
-      'image':
-      'https://miro.medium.com/v2/resize:fit:1000/1*GQ3zQ1uln6vVTGB_5VKKHg.jpeg',
-      'title': 'David Austin, Who Breathed Life Into',
-      'description':
-      'Discover the legacy of David Austin and his impact on horticulture.',
-      'date': '10/09/2024',
-      'views': '100',
-    },
-    {
-      'image':
-      'https://miro.medium.com/v2/resize:fit:1000/1*GQ3zQ1uln6vVTGB_5VKKHg.jpeg',
-      'title': 'Flutter - The Future of App Development',
-      'description':
-      'Explore why Flutter is the future of cross-platform mobile app development.',
-      'date': '10/09/2024',
-      'views': '100',
-    },
-    {
-      'image':
-      'https://miro.medium.com/v2/resize:fit:1000/1*GQ3zQ1uln6vVTGB_5VKKHg.jpeg',
-      'title': 'Learn Dart for Flutter Development',
-      'description': 'Master Dart, the programming language behind Flutter.',
-      'date': '10/09/2024',
-      'views': '100',
-    },
-    {
-      'image':
-      'https://miro.medium.com/v2/resize:fit:1000/1*GQ3zQ1uln6vVTGB_5VKKHg.jpeg',
-      'title': 'Building Complex UI with Flutter',
-      'description': 'Learn how to create advanced UI layouts using Flutter.',
-      'date': '10/09/2024',
-      'views': '100',
-    },
-  ];
+  WishlistPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
+
+    // Fetch the wishlist data when this page is built
+    wishlistController.fetchWishlist();
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
+            // Header section with Wishlist title
             Container(
               height: h * 0.2,
               width: double.infinity,
@@ -76,18 +45,44 @@ class WishlistPage extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(
-              flex: 8,
-              child: SingleChildScrollView(
-                child: Padding(
+
+            // Main content section
+            Expanded(
+              child: Obx(() {
+                if (wishlistController.isLoading.value) {
+                  // Show circular progress indicator when loading
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  );
+                }
+
+                // Show empty message if wishlist is empty
+                if (wishlistController.wishlistItems.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Your wishlist is empty!',
+                      style: TextStyle(
+                        fontSize: h * 0.022,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  );
+                }
+
+                // Show the wishlist items if available
+                return SingleChildScrollView(
                   padding: EdgeInsets.all(h * 0.02),
                   child: Column(
-                    children: playlistItems.map((item) {
+                    children: wishlistController.wishlistItems.map((item) {
                       return Column(
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Get.toNamed(AppRoutes.VIDEODETAILPAGE);
+                              Get.toNamed(AppRoutes.VIDEODETAILPAGE,
+                                  arguments: item);
                             },
                             child: Container(
                               height: h * 0.28,
@@ -103,7 +98,8 @@ class WishlistPage extends StatelessWidget {
                                   ),
                                 ],
                                 image: DecorationImage(
-                                  image: NetworkImage(item['image']!),
+                                  image: NetworkImage(
+                                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item['thumbnail']}"),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -115,7 +111,7 @@ class WishlistPage extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
-                                    BorderRadius.circular(h * 0.01),
+                                        BorderRadius.circular(h * 0.01),
                                   ),
                                   padding: EdgeInsets.symmetric(
                                       horizontal: h * 0.01),
@@ -123,7 +119,7 @@ class WishlistPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          item['title']!,
+                                          item['title'],
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
@@ -134,7 +130,10 @@ class WishlistPage extends StatelessWidget {
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          wishlistController
+                                              .removeFromWishlist(item['id']);
+                                        },
                                         icon: Icon(
                                           Icons.favorite,
                                           color: Colors.red,
@@ -151,8 +150,8 @@ class WishlistPage extends StatelessWidget {
                       );
                     }).toList(),
                   ),
-                ),
-              ),
+                );
+              }),
             ),
           ],
         ),
