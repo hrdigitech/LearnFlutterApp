@@ -14,8 +14,17 @@ class PlaylistDetailsItem {
       title: json['title'] as String?,
       image: json['thumbnail'] as String?,
       description: json['description'] as String?,
-      date: json['date'] as String?,
+      date: extractDate(json['created_at'] as String?), // Extract only the date
       views: json['view'] as int?,
     );
+  }
+
+  // Method to extract date from the created_at string
+  static String? extractDate(String? createdAt) {
+    if (createdAt != null) {
+      // Split the string by 'T' and return the first part (the date)
+      return createdAt.split('T').first;
+    }
+    return null; // Return null if createdAt is null
   }
 }

@@ -127,19 +127,24 @@ class PlaylistDetailPage extends StatelessWidget {
                           child: Image.network(
                             "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public//${item.image}",
                             fit: BoxFit.cover,
-                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Center(
                                 child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          (loadingProgress.expectedTotalBytes ??
+                                              1)
                                       : null,
                                 ),
                               );
                             },
-                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                            errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) {
                               return Image.asset(
-                               ImageUtils.ImagePath + ImageUtils.DefaultImage,
+                                ImageUtils.ImagePath + ImageUtils.DefaultImage,
                                 fit: BoxFit.cover,
                               );
                             },
@@ -161,17 +166,23 @@ class PlaylistDetailPage extends StatelessWidget {
                               ),
                               SizedBox(height: h * 0.02),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
                                       Icon(Icons.calendar_today_outlined,
                                           color: Colors.grey, size: h * 0.018),
                                       SizedBox(width: h * 0.005),
-                                      Text(item.date ?? '',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: h * 0.016)),
+                                      Text(
+                                        item.date ?? '',  // Display created_at
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: h * 0.016,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ],
                                   ),
                                   Row(
@@ -179,10 +190,13 @@ class PlaylistDetailPage extends StatelessWidget {
                                       Icon(Icons.remove_red_eye_outlined,
                                           color: Colors.grey, size: h * 0.018),
                                       SizedBox(width: h * 0.005),
-                                      Text(item.views.toString(),
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: h * 0.016)),
+                                      Text(
+                                        item.views.toString(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: h * 0.016,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -222,5 +236,4 @@ class PlaylistDetailPage extends StatelessWidget {
       ),
     );
   }
-
 }

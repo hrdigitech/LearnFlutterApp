@@ -19,7 +19,6 @@ class PlaylistPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Header Section
             Container(
               height: h * 0.2,
               width: double.infinity,
@@ -58,8 +57,6 @@ class PlaylistPage extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Playlist Content
             Flexible(
               flex: 8,
               child: Obx(() {
@@ -95,16 +92,17 @@ class PlaylistPage extends StatelessWidget {
                                 ),
                                 child: Stack(
                                   children: [
-                                    // CachedNetworkImage for better image performance
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(h * 0.01),
+                                      borderRadius:
+                                          BorderRadius.circular(h * 0.01),
                                       child: CachedNetworkImage(
                                         imageUrl:
-                                        "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/playlist/video/${item.image}",
+                                            "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/playlist/video/${item.image}",
                                         fit: BoxFit.cover,
                                         width: double.infinity,
                                         height: double.infinity,
-                                        placeholder: (context, url) => Image.asset(
+                                        placeholder: (context, url) =>
+                                            Image.asset(
                                           ImageUtils.ImagePath +
                                               ImageUtils.DefaultImage,
                                           fit: BoxFit.cover,
@@ -113,7 +111,6 @@ class PlaylistPage extends StatelessWidget {
                                             Icon(Icons.error),
                                       ),
                                     ),
-                                    // Title at the bottom of the image
                                     Align(
                                       alignment: Alignment.bottomLeft,
                                       child: Container(
@@ -122,7 +119,7 @@ class PlaylistPage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           color: Colors.black.withOpacity(0.3),
                                           borderRadius:
-                                          BorderRadius.circular(h * 0.01),
+                                              BorderRadius.circular(h * 0.01),
                                         ),
                                         padding: EdgeInsets.symmetric(
                                             horizontal: h * 0.01),

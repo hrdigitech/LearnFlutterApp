@@ -6,11 +6,14 @@ import '../../controller/VideoDetailController.dart';
 import '../../views/components/TitleText.dart';
 import '../../views/utils/LinearColorUtils.dart';
 import '../utils/ImageUtils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class VideoDetailsPage extends StatelessWidget {
   VideoDetailsPage({super.key});
 
-  final VideoDetailController controller = Get.put(VideoDetailController(),);
+  final VideoDetailController controller = Get.put(
+    VideoDetailController(),
+  );
 
   @override
   @override
@@ -22,7 +25,9 @@ class VideoDetailsPage extends StatelessWidget {
       body: SafeArea(
         child: Obx(() {
           if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator(),);
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
           final videoDetail = controller.videoDetail;
           if (videoDetail.isEmpty) {
@@ -49,11 +54,28 @@ class VideoDetailsPage extends StatelessWidget {
                   child: Container(
                     height: h * 0.3,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(thumbnailUrl),
-                        fit: BoxFit.cover,
+                    decoration: BoxDecoration(),
+                    child: CachedNetworkImage(
+                      imageUrl: thumbnailUrl,
+                      placeholder: (context, url) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                ImageUtils.ImagePath + ImageUtils.DefaultImage),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
+                      errorWidget: (context, url, error) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                ImageUtils.ImagePath + ImageUtils.DefaultImage),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -171,11 +193,6 @@ class VideoDetailsPage extends StatelessWidget {
                                           horizontal: w * 0.02),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              controller.previewImages[index]),
-                                          fit: BoxFit.cover,
-                                        ),
                                         boxShadow: [
                                           BoxShadow(
                                             color:
@@ -185,11 +202,32 @@ class VideoDetailsPage extends StatelessWidget {
                                           ),
                                         ],
                                       ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              controller.previewImages[index],
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            ImageUtils.ImagePath +
+                                                ImageUtils.DefaultImage,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            ImageUtils.ImagePath +
+                                                ImageUtils.DefaultImage,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   );
                                 },
                               ),
                             ),
+
                       SizedBox(height: h * 0.02),
                       TitleText(
                         text: "Links",
@@ -200,88 +238,100 @@ class VideoDetailsPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final String? githubUrl =
-                                  videoDetail['github_link'];
-                              if (githubUrl != null &&
-                                  await canLaunch(githubUrl)) {
-                                await launch(githubUrl);
-                              } else {
-                                throw 'Could not launch $githubUrl';
-                              }
-                            },
-                            child: Container(
-                              height: h * 0.04,
-                              width: h * 0.04,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    ImageUtils.ImagePath + ImageUtils.Github,
+                          videoDetail['github_link'] == null
+                              ? Container()
+                              : GestureDetector(
+                                  onTap: () async {
+                                    final String? githubUrl = videoDetail[''];
+                                    if (githubUrl != null &&
+                                        await canLaunch(githubUrl)) {
+                                      await launch(githubUrl);
+                                    } else {
+                                      throw 'Could not launch $githubUrl';
+                                    }
+                                  },
+                                  child: Container(
+                                    height: h * 0.04,
+                                    width: h * 0.04,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          ImageUtils.ImagePath +
+                                              ImageUtils.Github,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: h * 0.014,
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              final String? youtubeUrl =
-                                  videoDetail['youtube_link'];
-                              if (youtubeUrl != null &&
-                                  await canLaunch(youtubeUrl)) {
-                                await launch(youtubeUrl);
-                              } else {
-                                throw 'Could not launch $youtubeUrl';
-                              }
-                            },
-                            child: Container(
-                              height: h * 0.04,
-                              width: h * 0.04,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    ImageUtils.ImagePath + ImageUtils.Youtube,
+                          videoDetail['youtube_link'] == null
+                              ? Container()
+                              : SizedBox(
+                                  width: h * 0.014,
+                                ),
+                          videoDetail['youtube_link'] == null
+                              ? Container()
+                              : GestureDetector(
+                                  onTap: () async {
+                                    final String? youtubeUrl =
+                                        videoDetail['youtube_link'];
+                                    if (youtubeUrl != null &&
+                                        await canLaunch(youtubeUrl)) {
+                                      await launch(youtubeUrl);
+                                    } else {
+                                      throw 'Could not launch $youtubeUrl';
+                                    }
+                                  },
+                                  child: Container(
+                                    height: h * 0.04,
+                                    width: h * 0.04,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          ImageUtils.ImagePath +
+                                              ImageUtils.Youtube,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: h * 0.014,
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              String? linkedinUrl = videoDetail['linkdin_link'];
-                              if (linkedinUrl != null) {
-                                // Ensure the URL starts with https://
-                                if (!linkedinUrl.startsWith('http')) {
-                                  linkedinUrl = 'https://$linkedinUrl';
-                                }
-                                if (await canLaunch(linkedinUrl)) {
-                                  await launch(linkedinUrl);
-                                } else {
-                                  throw 'Could not launch $linkedinUrl';
-                                }
-                              }
-                            },
-                            child: Container(
-                              height: h * 0.04,
-                              width: h * 0.04,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    ImageUtils.ImagePath + ImageUtils.Linkdin,
+                          videoDetail['linkdin_link'] == null
+                              ? Container()
+                              : SizedBox(
+                                  width: h * 0.014,
+                                ),
+                          videoDetail['linkdin_link'] == null
+                              ? Container()
+                              : GestureDetector(
+                                  onTap: () async {
+                                    String? linkedinUrl =
+                                        videoDetail['linkdin_link'];
+                                    if (linkedinUrl != null) {
+                                      if (!linkedinUrl.startsWith('http')) {
+                                        linkedinUrl = 'https://$linkedinUrl';
+                                      }
+                                      if (await canLaunch(linkedinUrl)) {
+                                        await launch(linkedinUrl);
+                                      } else {
+                                        throw 'Could not launch $linkedinUrl';
+                                      }
+                                    }
+                                  },
+                                  child: Container(
+                                    height: h * 0.04,
+                                    width: h * 0.04,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          ImageUtils.ImagePath +
+                                              ImageUtils.Linkdin,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
 
@@ -319,7 +369,6 @@ class VideoDetailsPage extends StatelessWidget {
     );
   }
 
-  // Reusable method for info row
   Widget _buildInfoRow(BuildContext context, IconData icon, String text) {
     double h = MediaQuery.of(context).size.height;
     return Row(
