@@ -1,79 +1,64 @@
-import 'dart:convert';
-
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:learn_flutter/models/VideoDetailsModel.dart';
-
-import '../views/utils/VarUtils.dart';
+import 'dart:convert';
 
 class VideoDetailController extends GetxController {
-  var isLoading = false.obs;
-  VideoDetailsModel? _videoDetailsModel;
-  VideoDetailsModel? get videoDetailsModel => _videoDetailsModel;
-  set videoDetailsModel(VideoDetailsModel? value) {
-    _videoDetailsModel = value;
-    update();
-  }
-
-  var videoId = ''.obs; // Observed variable for video ID
+  var videoDetail = {}.obs;
+  var isLoading = true.obs;
+  var isLike = false.obs;
+  var previewImages = <String>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments != null) {
-      videoId.value = Get.arguments.toString();
-      fetchVideoDetail(videoId: int.parse(videoId.value));
-    }
+    final args = Get.arguments;
+    final String videoId = args['videoId'].toString();
+    final String userId = args['userId'].toString();
+    fetchVideoDetail(videoId, userId);
   }
 
-  var previewImages = [
-    "https://i.ytimg.com/vi/TTNdGjl0wqo/maxresdefault.jpg",
-    "https://img.freepik.com/free-vector/bright-gradient-background-geometric-colorful_361591-4630.jpg",
-    "https://g3.img-dpreview.com/429FE12F3580437897F4F0C2379386C6.jpg",
-    "https://img.freepik.com/free-vector/green-neon-synthwave-patterned-social-story-template-vector_53876-173387.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1726012800&semt=ais_hybrid",
-    "https://g1.img-dpreview.com/3ACBE6D011274856888F900E563D7A85.jpg",
-  ].obs;
-
-  Future<void> fetchVideoDetail({required int videoId}) async {
+  Future<void> fetchVideoDetail(String id, String userId) async {
+    log("Video Id: ${id.toString()}, User Id: ${userId.toString()}");
     try {
       isLoading(true);
-
       var request = http.MultipartRequest(
         'POST',
         Uri.parse('https://customize.hkdigiverse.com/hrcodeexpert/api/video-detail'),
       );
+      request.fields.addAll({
+        'id': id,
+        'user_id': userId,
+      });
 
-      request.fields['id'] = videoId.toString(); // Pass the video ID
-      request.fields['user_id'] = VarUtils.ID.toString(); // Assuming you have a user ID stored in VarUtils
-
-      print('Request URL: ${request.url}');
-      print('Request Fields: ${request.fields}');
-
-      var response = await request.send();
-      print('Response Status Code: ${response.statusCode}');
+      http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        var responseBody = await response.stream.bytesToString();
-        var jsonResponse = json.decode(responseBody);
-        print('JSON Response: $jsonResponse');
+        var jsonResponse = jsonDecode(await response.stream.bytesToString());
+        var data = jsonResponse['data'];
 
-        // Check if the response indicates success
-        if (jsonResponse['status'] == 1) {
-          VideoDetailsModel data = VideoDetailsModel.fromJson(jsonResponse);
-         videoDetailsModel = data;
+        videoDetail.value = data;
+        isLike.value = jsonResponse['islike'];
 
-          Get.snackbar('Success', 'Video details fetched successfully');
-        } else {
-          Get.snackbar('Error', jsonResponse['message'] ?? 'Something went wrong');
+        // Parsing preview images
+        var previewStr = data['preview_img'];
+        if (previewStr is List) {
+          previewImages.value = previewStr
+              .map((img) => 'https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/video/preview/$img')
+              .toList();
+        } else if (previewStr is String) {
+          previewImages.value = previewStr
+              .split(',')
+              .map((img) => 'https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/video/preview/$img')
+              .toList();
         }
       } else {
-        Get.snackbar("Error", "Failed to fetch video details");
+        log('Error: ${response.reasonPhrase}');
       }
     } catch (e) {
-      Get.snackbar("Error", "Something went wrong: ${e.toString()}");
+      log('Error fetching video detail: $e');
     } finally {
       isLoading(false);
     }
   }
-
 }

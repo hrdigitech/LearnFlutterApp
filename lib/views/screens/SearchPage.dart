@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/SearchController.dart';
 import '../routes/AppRoutes.dart';
+import '../utils/VarUtils.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({super.key});
@@ -18,16 +19,17 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    // Fetch playlists when the widget is initialized
+    controller.fetchLatestPlaylists();
   }
 
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-    controller.fetchLatestPlaylists();
     return Scaffold(
       body: SafeArea(
-        child: GetBuilder(
-          builder: (SearchPageController controller) {
+        child: GetBuilder<SearchPageController>(
+          builder: (controller) {
             return Column(
               children: [
                 // Search header
@@ -55,9 +57,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: h * 0.02,
-                ),
+                SizedBox(height: h * 0.02),
 
                 // Search box
                 Container(
@@ -113,191 +113,86 @@ class _SearchPageState extends State<SearchPage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: h * 0.02,
-                ),
+                SizedBox(height: h * 0.02),
 
                 // Display search results or latest playlists
                 Obx(() {
                   if (controller.latestPlayListIsLoading.value) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   }
-                  if (controller.searchModel?.data == null ||
-                      controller.searchModel!.data.isEmpty) {
-                    return Flexible(
-                      flex: 8,
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: h * 0.02,
-                            right: h * 0.02,
-                            bottom: h * 0.02,
-                          ),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: controller.latestPlayListModel!.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var item = controller.latestPlayListModel!.data[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.VIDEODETAILPAGE);
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                    bottom: h * 0.02,
-                                  ),
-                                  height: h * 0.28,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(h * 0.01),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.25),
-                                        offset: Offset(0, 0),
-                                        blurRadius: 10,
-                                        spreadRadius: 2,
-                                      ),
-                                    ],
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Container(
-                                      height: h * 0.08,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(h * 0.01),
-                                      ),
-                                      padding: EdgeInsets.symmetric(horizontal: h * 0.01),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              item.title,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: h * 0.02,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.favorite_border,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    );
+                  if (controller.latestPlayListModel == null ||
+                      controller.latestPlayListModel!.data.isEmpty) {
+                    return Center(child: Text("No playlists available."));
                   }
 
-                  return Flexible(
-                    flex: 8,
+                  return Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: EdgeInsets.only(
-                          left: h * 0.02,
-                          right: h * 0.02,
-                          bottom: h * 0.02,
-                        ),
-                        child: controller.searchModel!.data.isEmpty
-                            ? Center(child: Text("No results found"))
-                            : ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: h * 0.02),
+                        child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: controller.searchModel!.data.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: controller.latestPlayListModel!.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var item = controller.searchModel!.data[index];
-                            return Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(AppRoutes.VIDEODETAILPAGE);
-                                  },
+                            var item = controller.latestPlayListModel!.data[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(AppRoutes.VIDEODETAILPAGE, arguments: {
+                                  'videoId': item.id,
+                                  'userId': VarUtils.ID.toString(),
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: h * 0.02),
+                                height: h * 0.28,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(h * 0.01),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.25),
+                                      offset: Offset(0, 0),
+                                      blurRadius: 10,
+                                      spreadRadius: 2,
+                                    ),
+                                  ],
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
                                   child: Container(
-                                    height: h * 0.28,
+
                                     width: double.infinity,
                                     decoration: BoxDecoration(
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(h * 0.01),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.25),
-                                          offset: Offset(0, 0),
-                                          blurRadius: 10,
-                                          spreadRadius: 2,
-                                        ),
-                                      ],
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
                                     ),
-                                    child: Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Container(
-                                        height: h * 0.08,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(h * 0.01),
-                                        ),
-                                        padding: EdgeInsets.symmetric(horizontal: h * 0.01),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                item.title,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: h * 0.02,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.favorite_border,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    padding: EdgeInsets.symmetric(horizontal: h * 0.01),
+                                    child: Text(
+                                      item.title,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: h * 0.02,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: h * 0.02),
-                              ],
+                              ),
                             );
                           },
                         ),
                       ),
                     ),
                   );
-                })
+                }),
               ],
             );
           },

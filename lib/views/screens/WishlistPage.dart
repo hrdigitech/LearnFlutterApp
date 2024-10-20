@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/WishlistController.dart';
 import '../routes/AppRoutes.dart';
+import '../utils/VarUtils.dart';
 
 class WishlistPage extends StatelessWidget {
   final WishlistController wishlistController = Get.put(WishlistController());
@@ -50,7 +51,6 @@ class WishlistPage extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 if (wishlistController.isLoading.value) {
-                  // Show circular progress indicator when loading
                   return Center(
                     child: CircularProgressIndicator(
                       color: Colors.black,
@@ -58,7 +58,6 @@ class WishlistPage extends StatelessWidget {
                   );
                 }
 
-                // Show empty message if wishlist is empty
                 if (wishlistController.wishlistItems.isEmpty) {
                   return Center(
                     child: Text(
@@ -71,8 +70,6 @@ class WishlistPage extends StatelessWidget {
                     ),
                   );
                 }
-
-                // Show the wishlist items if available
                 return SingleChildScrollView(
                   padding: EdgeInsets.all(h * 0.02),
                   child: Column(
@@ -81,8 +78,13 @@ class WishlistPage extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Get.toNamed(AppRoutes.VIDEODETAILPAGE,
-                                  arguments: item);
+                              Get.toNamed(
+                                AppRoutes.VIDEODETAILPAGE,
+                                arguments: {
+                                  'videoId': item['id'],
+                                  'userId': VarUtils.ID.toString()
+                                },
+                              );
                             },
                             child: Container(
                               height: h * 0.28,
