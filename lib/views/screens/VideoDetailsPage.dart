@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:learn_flutter/views/utils/VarUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controller/VideoDetailController.dart';
 import '../../views/components/TitleText.dart';
@@ -98,7 +99,7 @@ class VideoDetailsPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Handle favorite tap
+                        controller.toggleLike(VarUtils.ID.toString(), videoDetail['id'].toString());
                       },
                       child: Container(
                         height: h * 0.06,
@@ -120,6 +121,7 @@ class VideoDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
+
                   ],
                 ),
                 Padding(

@@ -19,7 +19,7 @@ class VideoDetailController extends GetxController {
   }
 
   Future<void> fetchVideoDetail(String id, String userId) async {
-    log("Video Id: ${id.toString()}, User Id: ${userId.toString()}");
+    log("Video Id: $id, User Id: $userId");
     try {
       isLoading(true);
       var request = http.MultipartRequest(
@@ -59,6 +59,34 @@ class VideoDetailController extends GetxController {
       log('Error fetching video detail: $e');
     } finally {
       isLoading(false);
+    }
+  }
+
+  Future<void> toggleLike(String userId, String videoId) async {
+    try {
+      final String apiUrl = isLike.value
+          ? 'https://customize.hkdigiverse.com/hrcodeexpert/api/remove-wishlist'
+          : 'https://customize.hkdigiverse.com/hrcodeexpert/api/add-wishlist';
+
+      var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+      request.fields.addAll({
+        'user_id': userId,
+        'video_id': videoId,
+      });
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(await response.stream.bytesToString());
+        log(jsonResponse['message']);
+
+        // Toggle the like state
+        isLike.value = !isLike.value;
+      } else {
+        log('Error: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      log('Error toggling like: $e');
     }
   }
 }
