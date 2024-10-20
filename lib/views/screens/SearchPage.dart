@@ -5,13 +5,16 @@ import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/SearchPageController.dart';
 import '../routes/AppRoutes.dart';
 import '../utils/VarUtils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SearchPageController controller = Get.put(SearchPageController(),);
+    final SearchPageController controller = Get.put(
+      SearchPageController(),
+    );
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -150,36 +153,52 @@ class SearchPage extends StatelessWidget {
                     spreadRadius: 2,
                   ),
                 ],
-                image: DecorationImage(
-                  image: NetworkImage(
-                    "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
-                  ),
-                  fit: BoxFit.cover,
-                ),
               ),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
+              child: Stack(
+                children: [
+                  ClipRRect(
                     borderRadius: BorderRadius.circular(h * 0.01),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: h * 0.01,
-                    vertical: h * 0.01,
-                  ),
-                  child: Text(
-                    item.title,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: h * 0.02,
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      placeholder: (context, url) => Image.asset(
+                        ImageUtils.ImagePath + ImageUtils.DefaultImage,
+                        // Default placeholder image
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(h * 0.01),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: h * 0.01,
+                        vertical: h * 0.01,
+                      ),
+                      child: Text(
+                        item.title,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: h * 0.02,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );

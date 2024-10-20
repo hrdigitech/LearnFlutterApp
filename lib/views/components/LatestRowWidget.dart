@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/LatestController.dart';
 import '../routes/AppRoutes.dart';
 import '../utils/VarUtils.dart';
+import '../utils/ImageUtils.dart';  // Assuming ImageUtils has paths for default images
 
 class LatestRowWidget extends StatelessWidget {
   final List<LatestItem> latestItems;
@@ -28,7 +30,7 @@ class LatestRowWidget extends StatelessWidget {
                   AppRoutes.VIDEODETAILPAGE,
                   arguments: {
                     'videoId': item.id,
-                    'userId': VarUtils.ID.toString()
+                    'userId': VarUtils.ID.toString(),
                   },
                 );
               },
@@ -37,13 +39,19 @@ class LatestRowWidget extends StatelessWidget {
                 width: w * 0.76,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(h * 0.01),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/" + item.thumbnail,
-                    ),
-                    fit: BoxFit.cover,
-                  ),
                   color: Colors.black,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(h * 0.01),
+                  child: CachedNetworkImage(
+                    imageUrl: "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/" + item.thumbnail,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Image.asset(
+                      ImageUtils.ImagePath + ImageUtils.DefaultImage,  // Path for default image
+                      fit: BoxFit.cover,
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 ),
               ),
             ),

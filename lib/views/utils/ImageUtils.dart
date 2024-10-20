@@ -19,4 +19,5 @@ class ImageUtils{
   static String Github = "Github.png";
   static String Linkdin = "Linkdin.png";
   static String Youtube = "Youtube.png";
+  static String DefaultImage = "DefaultImage.png";
 }

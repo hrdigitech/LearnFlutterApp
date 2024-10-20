@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../controller/PeopleAlsoViewController.dart';
+import '../utils/ImageUtils.dart';
 
 class ImageSlider extends StatelessWidget {
   final PeopleAlsoViewController controller = Get.put(PeopleAlsoViewController());
@@ -34,23 +36,17 @@ class ImageSlider extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(h * 0.01),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/peopleview/" + sliderItem.image,
-                  ),
-                  fit: BoxFit.cover,
-                ),
               ),
-              padding: EdgeInsets.all(h * 0.02),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  sliderItem.title,
-                  style: TextStyle(
-                    fontSize: h * 0.02,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(h * 0.01),
+                child: CachedNetworkImage(
+                  imageUrl: "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/peopleview/" + sliderItem.image,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Image.asset(
+                    ImageUtils.ImagePath + ImageUtils.DefaultImage,
+                    fit: BoxFit.cover,
                   ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
             ),
