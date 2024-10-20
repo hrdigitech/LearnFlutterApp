@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/DetailPlaylistController.dart';
+import '../routes/AppRoutes.dart';
 import '../utils/ImageUtils.dart';
+import '../utils/VarUtils.dart';
 
 class PlaylistDetailPage extends StatelessWidget {
   PlaylistDetailPage({super.key});
@@ -89,100 +91,111 @@ class PlaylistDetailPage extends StatelessWidget {
           children: detailPlaylistController.playlistDetails.map((item) {
             return Column(
               children: [
-                Container(
-                  height: h * 0.2,
-                  width: double.infinity,
-                  child: Row(
-                    children: [
-                      Container(
-                        height: double.infinity,
-                        width: h * 0.2,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: h * 0.01,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.VIDEODETAILPAGE,
+                      arguments: {
+                        'videoId': item.id,
+                        'userId': VarUtils.ID.toString()
+                      },
+                    );
+                  },
+                  child: SizedBox(
+                    height: h * 0.2,
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: double.infinity,
+                          width: h * 0.2,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white,
+                              width: h * 0.01,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.25),
+                                offset: Offset(0, 0),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ],
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              offset: Offset(0, 0),
-                              blurRadius: 10,
-                              spreadRadius: 2,
-                            ),
-                          ],
+                          child: Image.network(
+                            "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public//${item.image}",
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        child: Image.network(
-                          "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public//${item.image}" ??
-                              '',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      SizedBox(width: h * 0.03),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.title ?? '',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.018,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: h * 0.02),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.calendar_today_outlined,
-                                        color: Colors.grey, size: h * 0.018),
-                                    SizedBox(width: h * 0.005),
-                                    Text(item.date ?? '',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: h * 0.016)),
-                                  ],
+                        SizedBox(width: h * 0.03),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.title ?? '',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: h * 0.018,
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.remove_red_eye_outlined,
-                                        color: Colors.grey, size: h * 0.018),
-                                    SizedBox(width: h * 0.005),
-                                    Text(item.views.toString(),
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: h * 0.016)),
-                                  ],
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: h * 0.02),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.calendar_today_outlined,
+                                          color: Colors.grey, size: h * 0.018),
+                                      SizedBox(width: h * 0.005),
+                                      Text(item.date ?? '',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: h * 0.016)),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.remove_red_eye_outlined,
+                                          color: Colors.grey, size: h * 0.018),
+                                      SizedBox(width: h * 0.005),
+                                      Text(item.views.toString(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: h * 0.016)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: h * 0.02),
+                              Text(
+                                "Description",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: h * 0.016,
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: h * 0.02),
-                            Text(
-                              "Description",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: h * 0.016,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: h * 0.0),
-                            Text(
-                              item.description ?? '',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: h * 0.016,
+                              SizedBox(height: h * 0.0),
+                              Text(
+                                item.description ?? '',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: h * 0.016,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: h * 0.02),

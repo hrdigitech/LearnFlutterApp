@@ -11,7 +11,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SearchPageController controller = Get.put(SearchPageController());
+    final SearchPageController controller = Get.put(SearchPageController(),);
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -45,13 +45,8 @@ class SearchPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: h * 0.02),
-
-              // Search box
               _buildSearchBox(controller, h),
-
               SizedBox(height: h * 0.02),
-
-              // Display search results or latest playlists
               (controller.playlistItems.isEmpty)
                   ? Container()
                   : _buildSearchResults(controller, h),

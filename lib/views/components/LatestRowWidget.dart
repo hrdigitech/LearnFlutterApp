@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controller/LatestController.dart';
 import '../routes/AppRoutes.dart';
+import '../utils/VarUtils.dart';
 
 class LatestRowWidget extends StatelessWidget {
   final List<LatestItem> latestItems;
@@ -23,7 +24,13 @@ class LatestRowWidget extends StatelessWidget {
             padding: EdgeInsets.only(right: w * 0.06),
             child: GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.VIDEODETAILPAGE, arguments: item);
+                Get.toNamed(
+                  AppRoutes.VIDEODETAILPAGE,
+                  arguments: {
+                    'videoId': item.id,
+                    'userId': VarUtils.ID.toString()
+                  },
+                );
               },
               child: Container(
                 height: h * 0.18,

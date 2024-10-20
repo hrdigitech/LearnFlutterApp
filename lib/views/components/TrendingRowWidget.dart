@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controller/TrendingController.dart';
 import '../routes/AppRoutes.dart';
+import '../utils/VarUtils.dart';
 
 class TrendingRowWidget extends StatelessWidget {
   final List<TrendingItem> trendingItems;
@@ -24,7 +25,13 @@ class TrendingRowWidget extends StatelessWidget {
             padding: EdgeInsets.only(right: w * 0.06),
             child: GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.VIDEODETAILPAGE);
+                Get.toNamed(
+                  AppRoutes.VIDEODETAILPAGE,
+                  arguments: {
+                    'videoId': item.id,
+                    'userId': VarUtils.ID.toString()
+                  },
+                );
               },
               child: Container(
                 height: h * 0.18,

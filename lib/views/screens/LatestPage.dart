@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:learn_flutter/views/routes/AppRoutes.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/LatestController.dart';
+import '../utils/VarUtils.dart';
 
 class LatestPage extends StatelessWidget {
   LatestPage({super.key});
@@ -79,9 +80,11 @@ class LatestPage extends StatelessWidget {
                               onTap: () {
                                 Get.toNamed(
                                   AppRoutes.VIDEODETAILPAGE,
-                                  arguments: item.id,
+                                  arguments: {
+                                    'videoId': item.id,
+                                    'userId': VarUtils.ID.toString()
+                                  },
                                 );
-                                print('ITEMMMM${item.id}');
                               },
                               child: Container(
                                 height: h * 0.2,

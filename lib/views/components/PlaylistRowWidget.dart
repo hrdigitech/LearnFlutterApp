@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../models/PlaylistItem.dart';
+import '../routes/AppRoutes.dart';
+import '../utils/VarUtils.dart';
 
 class PlaylistRowWidget extends StatelessWidget {
   final List<PlaylistItem> playlistItems;
@@ -19,7 +22,11 @@ class PlaylistRowWidget extends StatelessWidget {
             padding: EdgeInsets.only(right: w * 0.06),
             child: GestureDetector(
               onTap: () {
-                // Implement navigation or action on tap
+                Get.toNamed(AppRoutes.PLAYLISTDETAILPAGE, arguments: {
+                  'id': item.id,
+                  'title': item.name,
+
+                },);
               },
               child: Container(
                 height: h * 0.18,

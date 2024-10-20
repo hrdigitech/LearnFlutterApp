@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/TrendingController.dart';
 import '../routes/AppRoutes.dart';
+import '../utils/VarUtils.dart';
 
 class TrendingPage extends StatelessWidget {
   TrendingPage({super.key});
@@ -81,7 +82,13 @@ class TrendingPage extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(AppRoutes.VIDEODETAILPAGE);
+                                Get.toNamed(
+                                  AppRoutes.VIDEODETAILPAGE,
+                                  arguments: {
+                                    'videoId': item.id,
+                                    'userId': VarUtils.ID.toString()
+                                  },
+                                );
                               },
                               child: Container(
                                 height: h * 0.2,
@@ -108,7 +115,6 @@ class TrendingPage extends StatelessWidget {
                                       ),
                                       child: Image.network(
                                         "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
-                                        // Change to item.thumbnail
                                         fit: BoxFit.cover,
                                       ),
                                     ),
