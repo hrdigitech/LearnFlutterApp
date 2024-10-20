@@ -9,7 +9,8 @@ import '../utils/ImageUtils.dart';
 class PlaylistDetailPage extends StatelessWidget {
   PlaylistDetailPage({super.key});
 
-  final DetailPlaylistController detailPlaylistController = Get.put(DetailPlaylistController());
+  final DetailPlaylistController detailPlaylistController =
+      Get.put(DetailPlaylistController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class PlaylistDetailPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                     child: Icon(
                       CupertinoIcons.back,
@@ -65,7 +66,8 @@ class PlaylistDetailPage extends StatelessWidget {
               child: Obx(() {
                 if (detailPlaylistController.isLoading.value) {
                   return Center(child: CircularProgressIndicator());
-                } else if (detailPlaylistController.playlistDetails.isNotEmpty) {
+                } else if (detailPlaylistController
+                    .playlistDetails.isNotEmpty) {
                   return buildPlaylistItems(h);
                 } else {
                   return Center(child: Text("No playlist details available."));
@@ -110,7 +112,8 @@ class PlaylistDetailPage extends StatelessWidget {
                           ],
                         ),
                         child: Image.network(
-                          "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public//${item.image }"?? '',
+                          "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public//${item.image}" ??
+                              '',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -134,16 +137,24 @@ class PlaylistDetailPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today_outlined, color: Colors.grey, size: h * 0.018),
+                                    Icon(Icons.calendar_today_outlined,
+                                        color: Colors.grey, size: h * 0.018),
                                     SizedBox(width: h * 0.005),
-                                    Text(item.date ?? '', style: TextStyle(color: Colors.black, fontSize: h * 0.016)),
+                                    Text(item.date ?? '',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: h * 0.016)),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.remove_red_eye_outlined, color: Colors.grey, size: h * 0.018),
+                                    Icon(Icons.remove_red_eye_outlined,
+                                        color: Colors.grey, size: h * 0.018),
                                     SizedBox(width: h * 0.005),
-                                    Text(item.views.toString(), style: TextStyle(color: Colors.black, fontSize: h * 0.016)),
+                                    Text(item.views.toString(),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: h * 0.016)),
                                   ],
                                 ),
                               ],
@@ -166,8 +177,7 @@ class PlaylistDetailPage extends StatelessWidget {
                                 fontSize: h * 0.016,
                               ),
                               maxLines: 2,
-                              overflow:
-                              TextOverflow.ellipsis,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),

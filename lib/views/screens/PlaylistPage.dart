@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/views/routes/AppRoutes.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
-
 import '../../controller/PlaylistController.dart';
 
 class PlaylistPage extends StatelessWidget {
@@ -37,7 +36,7 @@ class PlaylistPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                     child: Icon(
                       CupertinoIcons.back,

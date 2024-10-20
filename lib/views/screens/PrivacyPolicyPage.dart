@@ -33,7 +33,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                     child: Icon(
                       CupertinoIcons.back,
