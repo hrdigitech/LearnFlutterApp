@@ -83,6 +83,7 @@ class PlaylistDetailPage extends StatelessWidget {
   }
 
   // Build the playlist items
+  // Inside your buildPlaylistItems method
   Widget buildPlaylistItems(double h) {
     return SingleChildScrollView(
       child: Padding(
@@ -126,6 +127,22 @@ class PlaylistDetailPage extends StatelessWidget {
                           child: Image.network(
                             "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public//${item.image}",
                             fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                      : null,
+                                ),
+                              );
+                            },
+                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                              return Image.asset(
+                               ImageUtils.ImagePath + ImageUtils.DefaultImage,
+                                fit: BoxFit.cover,
+                              );
+                            },
                           ),
                         ),
                         SizedBox(width: h * 0.03),
@@ -144,8 +161,7 @@ class PlaylistDetailPage extends StatelessWidget {
                               ),
                               SizedBox(height: h * 0.02),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -206,4 +222,5 @@ class PlaylistDetailPage extends StatelessWidget {
       ),
     );
   }
+
 }

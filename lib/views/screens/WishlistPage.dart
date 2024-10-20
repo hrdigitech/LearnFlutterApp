@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/WishlistController.dart';
 import '../routes/AppRoutes.dart';
@@ -99,51 +100,69 @@ class WishlistPage extends StatelessWidget {
                                     spreadRadius: 2,
                                   ),
                                 ],
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item['thumbnail']}"),
-                                  fit: BoxFit.cover,
-                                ),
                               ),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Container(
-                                  height: h * 0.08,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
                                     borderRadius:
-                                        BorderRadius.circular(h * 0.01),
+                                    BorderRadius.circular(h * 0.01),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item['thumbnail']}",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      placeholder: (context, url) => Image.asset(
+                                        ImageUtils.ImagePath +
+                                            ImageUtils.DefaultImage,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    ),
                                   ),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: h * 0.01),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          item['title'],
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: h * 0.02,
+                                  Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Container(
+                                      height: h * 0.08,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(
+                                            h * 0.01),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: h * 0.01),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              item['title'],
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: h * 0.02,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                            ),
                                           ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
+                                          IconButton(
+                                            onPressed: () {
+                                              wishlistController
+                                                  .removeFromWishlist(
+                                                  item['id']);
+                                            },
+                                            icon: Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      IconButton(
-                                        onPressed: () {
-                                          wishlistController
-                                              .removeFromWishlist(item['id']);
-                                        },
-                                        icon: Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                           ),

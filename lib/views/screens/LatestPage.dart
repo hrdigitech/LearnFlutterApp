@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:learn_flutter/views/routes/AppRoutes.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/LatestController.dart';
@@ -29,6 +30,7 @@ class LatestPage extends StatelessWidget {
 
           return Column(
             children: [
+              // Header Section
               Container(
                 height: h * 0.2,
                 width: double.infinity,
@@ -67,6 +69,8 @@ class LatestPage extends StatelessWidget {
                   ],
                 ),
               ),
+
+              // Content Section
               Flexible(
                 flex: 8,
                 child: SingleChildScrollView(
@@ -82,7 +86,7 @@ class LatestPage extends StatelessWidget {
                                   AppRoutes.VIDEODETAILPAGE,
                                   arguments: {
                                     'videoId': item.id,
-                                    'userId': VarUtils.ID.toString()
+                                    'userId': VarUtils.ID.toString(),
                                   },
                                 );
                               },
@@ -91,6 +95,7 @@ class LatestPage extends StatelessWidget {
                                 width: double.infinity,
                                 child: Row(
                                   children: [
+                                    // Thumbnail with CachedNetworkImage
                                     Container(
                                       height: double.infinity,
                                       width: h * 0.2,
@@ -108,15 +113,27 @@ class LatestPage extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      child: Image.network(
+                                      child: CachedNetworkImage(
+                                        imageUrl:
                                         "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
                                         fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                              ImageUtils.ImagePath +
+                                                  ImageUtils.DefaultImage,
+                                              fit: BoxFit.cover,
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
                                     ),
                                     SizedBox(width: h * 0.03),
+
+                                    // Video Information
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             item.title,
@@ -129,18 +146,23 @@ class LatestPage extends StatelessWidget {
                                           ),
                                           SizedBox(height: h * 0.02),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
+                                              // Date
                                               Row(
                                                 children: [
                                                   Icon(
-                                                    Icons.calendar_today_outlined,
+                                                    Icons
+                                                        .calendar_today_outlined,
                                                     color: Colors.grey,
                                                     size: h * 0.018,
                                                   ),
                                                   SizedBox(width: h * 0.005),
                                                   Text(
-                                                    DateFormat('dd-MM-yyyy').format(DateTime.parse(item.createdAt)),
+                                                    DateFormat('dd-MM-yyyy')
+                                                        .format(DateTime.parse(
+                                                        item.createdAt)),
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: h * 0.016,
@@ -148,10 +170,13 @@ class LatestPage extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
+
+                                              // View Count
                                               Row(
                                                 children: [
                                                   Icon(
-                                                    Icons.remove_red_eye_outlined,
+                                                    Icons
+                                                        .remove_red_eye_outlined,
                                                     color: Colors.grey,
                                                     size: h * 0.018,
                                                   ),
@@ -168,6 +193,8 @@ class LatestPage extends StatelessWidget {
                                             ],
                                           ),
                                           SizedBox(height: h * 0.02),
+
+                                          // Playlist Information
                                           Text(
                                             "Playlist",
                                             style: TextStyle(
@@ -177,7 +204,6 @@ class LatestPage extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          SizedBox(height: h * 0.0),
                                           Text(
                                             item.playlist_name,
                                             style: TextStyle(
@@ -185,8 +211,7 @@ class LatestPage extends StatelessWidget {
                                               fontSize: h * 0.016,
                                             ),
                                             maxLines: 2,
-                                            overflow:
-                                            TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),

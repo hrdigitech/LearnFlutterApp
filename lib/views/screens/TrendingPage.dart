@@ -105,8 +105,7 @@ class TrendingPage extends StatelessWidget {
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.25),
+                                            color: Colors.black.withOpacity(0.25),
                                             offset: Offset(0, 0),
                                             blurRadius: 10,
                                             spreadRadius: 2,
@@ -116,8 +115,25 @@ class TrendingPage extends StatelessWidget {
                                       child: Image.network(
                                         "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
                                         fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) return child; // Image loaded
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress.expectedTotalBytes != null
+                                                  ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            ImageUtils.ImagePath + ImageUtils.DefaultImage,
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
                                       ),
                                     ),
+
                                     SizedBox(
                                       width: h * 0.03,
                                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:learn_flutter/views/routes/AppRoutes.dart';
 import 'package:learn_flutter/views/utils/ImageUtils.dart';
 import '../../controller/PlaylistController.dart';
@@ -18,6 +19,7 @@ class PlaylistPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Header Section
             Container(
               height: h * 0.2,
               width: double.infinity,
@@ -56,6 +58,8 @@ class PlaylistPage extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Playlist Content
             Flexible(
               flex: 8,
               child: Obx(() {
@@ -75,47 +79,68 @@ class PlaylistPage extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(AppRoutes.PLAYLISTDETAILPAGE, arguments: {
-                                  'id': item.id,
-                                  'title': item.name,
-
-                                },);
+                                Get.toNamed(
+                                  AppRoutes.PLAYLISTDETAILPAGE,
+                                  arguments: {
+                                    'id': item.id,
+                                    'title': item.name,
+                                  },
+                                );
                               },
                               child: Container(
                                 height: h * 0.24,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(h * 0.01),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/playlist/video/${item.image}",
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Container(
-                                    height: h * 0.05,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
+                                child: Stack(
+                                  children: [
+                                    // CachedNetworkImage for better image performance
+                                    ClipRRect(
                                       borderRadius: BorderRadius.circular(h * 0.01),
-                                    ),
-                                    padding: EdgeInsets.symmetric(horizontal: h * 0.01),
-                                    child: Center(
-                                      child: Text(
-                                        item.name,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: h * 0.02,
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                        "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/playlist/video/${item.image}",
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        placeholder: (context, url) => Image.asset(
+                                          ImageUtils.ImagePath +
+                                              ImageUtils.DefaultImage,
+                                          fit: BoxFit.cover,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
                                     ),
-                                  ),
+                                    // Title at the bottom of the image
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Container(
+                                        height: h * 0.05,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.3),
+                                          borderRadius:
+                                          BorderRadius.circular(h * 0.01),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: h * 0.01),
+                                        child: Center(
+                                          child: Text(
+                                            item.name,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: h * 0.02,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
