@@ -6,6 +6,7 @@ import '../routes/AppRoutes.dart';
 import '../utils/ImageUtils.dart';
 import '../utils/LinearColorUtils.dart';
 import '../utils/SVGUtils.dart';
+import '../utils/VarUtils.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -95,14 +96,37 @@ class SignUpScreen extends StatelessWidget {
                         controller.isLoading.value,
                       ),
                       SizedBox(height: h * 0.02),
-                      _buildTextFieldSection(
-                        context,
-                        "Password",
-                        controller.passwordController,
-                        SVGUtils.kLock,
-                        controller.validatePassword,
-                        'Password',
-                        controller.isLoading.value,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Password",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: h * 0.016,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: h * 0.01),
+                      PassField(
+                        iconColor: Colors.white,
+                        controller: controller.passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        icon: SVGUtils.kLock,
+                        onChnaged: (value) {
+                          VarUtils.Password = value!;
+                          return null;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a password';
+                          }
+                          if (!controller.isPasswordStrong(value)) {
+                            return 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.';
+                          }
+                          return null;
+                        },
+                        hintText: 'Password',
                       ),
                       SizedBox(height: h * 0.04),
                       controller.isLoading.value

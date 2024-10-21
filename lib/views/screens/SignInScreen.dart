@@ -19,7 +19,7 @@ class SignInScreen extends StatelessWidget {
 
     return Scaffold(
       body: Obx(
-            () => Container(
+        () => Container(
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
@@ -110,7 +110,7 @@ class SignInScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: h * 0.01),
-                      AuthField(
+                      PassField(
                         iconColor: Colors.white,
                         controller: controller.passwordController,
                         keyboardType: TextInputType.visiblePassword,
@@ -165,16 +165,16 @@ class SignInScreen extends StatelessWidget {
                           child: Center(
                             child: controller.isLoading.value
                                 ? CircularProgressIndicator(
-                              color: Colors.black,
-                            )
+                                    color: Colors.black,
+                                  )
                                 : Text(
-                              "SIGN IN",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.024,
-                                color: Colors.black,
-                              ),
-                            ),
+                                    "SIGN IN",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: h * 0.024,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
@@ -187,9 +187,10 @@ class SignInScreen extends StatelessWidget {
                           Text(
                             "Create an account",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.016),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: h * 0.016,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -198,9 +199,10 @@ class SignInScreen extends StatelessWidget {
                             child: Text(
                               "SIGN UP?",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: h * 0.016),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: h * 0.016,
+                              ),
                             ),
                           ),
                         ],

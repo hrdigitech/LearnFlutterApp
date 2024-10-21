@@ -124,7 +124,14 @@ class SearchPage extends StatelessWidget {
 
     if (controller.playlistItems.isEmpty) {
       return Center(
-        child: Text("No Video Found"),
+        child: Text(
+          "No Data Found",
+          style: TextStyle(
+            fontSize: h * 0.022,
+            color: Colors.black.withOpacity(0.7),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       );
     }
 
@@ -160,13 +167,12 @@ class SearchPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(h * 0.01),
                     child: CachedNetworkImage(
                       imageUrl:
-                          "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
+                      "https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${item.thumbnail}",
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: double.infinity,
                       placeholder: (context, url) => Image.asset(
                         ImageUtils.ImagePath + ImageUtils.DefaultImage,
-                        // Default placeholder image
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
@@ -206,4 +212,5 @@ class SearchPage extends StatelessWidget {
       ),
     );
   }
+
 }

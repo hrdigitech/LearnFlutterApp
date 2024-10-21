@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
             Container(
               height: h * 0.2,
               width: double.infinity,
-              padding: EdgeInsets.all(h * 0.01),
+              padding: EdgeInsets.all(h * 0.02),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
@@ -36,7 +36,9 @@ class HomePage extends StatelessWidget {
                   ),
                   fit: BoxFit.cover,
                 ),
+
               ),
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

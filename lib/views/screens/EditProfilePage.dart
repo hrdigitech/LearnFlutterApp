@@ -142,9 +142,10 @@ class EditProfilePage extends StatelessWidget {
                               controller.isLoading.value ? "Please wait..." : "Save",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: h * 0.02,
+                                fontSize: h * 0.024,
+                                color: Colors.black,
                               ),
+
                             ),
                           ),
                         )),

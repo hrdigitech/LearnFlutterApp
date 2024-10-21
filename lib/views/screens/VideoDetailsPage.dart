@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learn_flutter/views/utils/VarUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../controller/VideoDetailController.dart';
 import '../../views/components/TitleText.dart';
 import '../../views/utils/LinearColorUtils.dart';
@@ -40,44 +41,51 @@ class VideoDetailsPage extends StatelessWidget {
           String thumbnailUrl =
               'https://customize.hkdigiverse.com/hrcodeexpert/storage/app/public/${videoDetail["thumbnail"]}';
           String youtubeUrl = videoDetail['youtube_link'] ?? '';
+          String? videoId = YoutubePlayer.convertUrlToId(youtubeUrl);
 
           return SingleChildScrollView(
             child: Column(
               children: [
-                GestureDetector(
-                  onTap: () async {
-                    if (await canLaunch(youtubeUrl)) {
-                      await launch(youtubeUrl);
-                    } else {
-                      throw 'Could not launch $youtubeUrl';
-                    }
-                  },
-                  child: Container(
-                    height: h * 0.3,
-                    width: double.infinity,
-                    decoration: BoxDecoration(),
-                    child: CachedNetworkImage(
-                      imageUrl: thumbnailUrl,
-                      placeholder: (context, url) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                ImageUtils.ImagePath + ImageUtils.DefaultImage),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                ImageUtils.ImagePath + ImageUtils.DefaultImage),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      fit: BoxFit.cover,
+                videoId != null
+                    ? YoutubePlayer(
+                  controller: YoutubePlayerController(
+                    initialVideoId: videoId,
+                    flags: YoutubePlayerFlags(
+                      autoPlay: false,
+                      mute: false,
                     ),
+                  ),
+                  showVideoProgressIndicator: true,
+                  progressColors: ProgressBarColors(
+                    playedColor: Colors.red,
+                    handleColor: Colors.redAccent,
+                  ),
+                )
+                    : Container(
+                  height: h * 0.3,
+                  width: double.infinity,
+                  decoration: BoxDecoration(),
+                  child: CachedNetworkImage(
+                    imageUrl: thumbnailUrl,
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              ImageUtils.ImagePath + ImageUtils.DefaultImage),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              ImageUtils.ImagePath + ImageUtils.DefaultImage),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(height: h * 0.01),
@@ -180,7 +188,7 @@ class VideoDetailsPage extends StatelessWidget {
                       videoDetail['preview_img'] == ''
                           ? Container()
                           : SizedBox(
-                              height: h * 0.4,
+                              height: h * 0.44,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: controller.previewImages.length,
@@ -221,7 +229,7 @@ class VideoDetailsPage extends StatelessWidget {
                                                 ImageUtils.DefaultImage,
                                             fit: BoxFit.cover,
                                           ),
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fitHeight,
                                         ),
                                       ),
                                     ),

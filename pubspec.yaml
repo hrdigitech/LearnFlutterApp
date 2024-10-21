@@ -22,6 +22,7 @@ dependencies:
   url_launcher:
   image_picker:
   intl:
+  youtube_player_flutter:
 
 dev_dependencies:
   flutter_test:
