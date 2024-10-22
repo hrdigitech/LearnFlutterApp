@@ -84,6 +84,7 @@ class NewPasswordPage extends StatelessWidget {
                       icon: SVGUtils.kLock,
                       onChnaged: (value) {
                         VarUtils.Password = value!;
+                        return null;
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -114,7 +115,9 @@ class NewPasswordPage extends StatelessWidget {
                       controller: controller.confirmPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                       icon: SVGUtils.kLock,
-                      onChnaged: (value) {},
+                      onChnaged: (value) {
+                        return null;
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter a password';
